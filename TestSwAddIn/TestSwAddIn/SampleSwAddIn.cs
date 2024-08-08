@@ -1,10 +1,13 @@
-﻿using System;
+﻿using SolidWorks.Interop.sldworks;
+using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Threading;
 using TestSwAddIn.Properties;
 using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.SolidWorks;
 using Xarial.XCad.UI.Commands;
+using PaintModelUtilities;
 
 namespace SampleAddIn
 {
@@ -19,7 +22,11 @@ namespace SampleAddIn
             [Title("Hello, world!")]
             [Description("Show Hello, world!")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
-            HelloWorld
+            HelloWorld,
+            [Title("Change collor!")]
+            [Description("Color changed!")]
+            [Icon(typeof(Resources), nameof(Resources.Imagem1))]
+            ChangeColor
         }
 
         public override void OnConnect()
@@ -30,12 +37,65 @@ namespace SampleAddIn
 
         private void CmGrp_CommandClick(Commands_e spec)
         {
+            
+
             switch (spec)
             {
+                
                 case Commands_e.HelloWorld:
                     Application.ShowMessageBox("Hello, world!");
                     break;
+
+                #region Change Collor
+                case Commands_e.ChangeColor:
+
+                    //SldWorks swApp = null;
+                    //SldWorks swApp = new SldWorks();
+                    String paintCode = "";
+                    ModelDoc2 swModel = ((ModelDoc2)(swApp.ActiveDoc));
+
+                    //ModelDoc2 swModel;
+
+                    //SldWorks.SldWorks swApp = new SldWorks.SldWorks();
+
+                    //swModel = (ModelDoc2)swApp.ActiveDoc;
+
+                    CustomPropertyManager cusPropMgr = swModel.Extension.CustomPropertyManager[""];
+
+                    string[] propertyNames = (string[])cusPropMgr.GetNames();
+                    if (propertyNames != null)
+                    {
+                        //For each property write its value
+                        foreach (string propertyName in propertyNames)
+                        {
+                            string propertyValue;
+                            string propertyResolvedValue;
+                            bool wasResolved;
+                            cusPropMgr.Get5(propertyName, false, out propertyValue, out propertyResolvedValue, out wasResolved);
+                            Console.WriteLine($"Property: {propertyName}");
+                            Console.WriteLine($"Value: {propertyValue}");
+                            Console.WriteLine($"Resolved Value: {propertyResolvedValue}");
+                            Console.WriteLine($"Resolved: {wasResolved}\n");
+                            if (propertyName.ToUpper() == "TRATAMENTO_SUPERFICIAL")
+                            {
+                                paintCode = propertyResolvedValue.Split('-')[0];
+                                Console.WriteLine($"Cor: {paintCode}");
+                            }
+                        }
+                    }
+
+                    Thread.Sleep(500); //This delay is used to avoid SolidWorks crashes
+
+                    double[] materialProps = (double[])swModel.MaterialPropertyValues; //get the visual properties of the actual part in a variable
+                    materialProps = Utilities.getColor(paintCode, materialProps); //Send the variable with the cod of the color to the function
+                    swModel.MaterialPropertyValues = materialProps; //The function return a double[] with all properties and color changed
+                    swModel.EditRebuild3();
+            
+                    break;
+                #endregion
             }
+            
         }
+        public SldWorks swApp;
     }
 }

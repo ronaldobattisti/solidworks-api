@@ -4,4 +4,7 @@
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\SLDWORKS.exe</StartProgram>
   </PropertyGroup>
+  <PropertyGroup>
+    <ProjectView>ShowAllFiles</ProjectView>
+  </PropertyGroup>
 </Project>
