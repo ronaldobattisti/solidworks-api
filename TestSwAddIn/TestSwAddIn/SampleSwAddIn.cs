@@ -51,19 +51,10 @@ namespace SampleAddIn
                 #region Change Collor
                 case Commands_e.ChangeColor:
 
-                    //SldWorks swApp = null;
-                    //SldWorks swApp = new SldWorks();
                     String paintCode = "";
-                    //ModelDoc2 swModel = ((ModelDoc2)(swApp.ActiveDoc));
+
                     SldWorks swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
                     ModelDoc2 swModel = ((ModelDoc2)(swApp.ActiveDoc));
-                    
-
-                    //ModelDoc2 swModel;
-
-                    //SldWorks.SldWorks swApp = new SldWorks.SldWorks();
-
-                    //swModel = (ModelDoc2)swApp.ActiveDoc;
 
                     CustomPropertyManager cusPropMgr = swModel.Extension.CustomPropertyManager[""];
 
@@ -106,6 +97,5 @@ namespace SampleAddIn
             }
             
         }
-        //public SldWorks swApp;
     }
 }

@@ -3,13 +3,6 @@ using System.Collections.Generic;
 namespace PaintModelUtilities{
     public static class Utilities{
         public static double[] getColor(string codColor, double[] materialProps){
-            //Dictionary to translate Sazi colors to RGB colors
-            /*Dictionary<string, double[]> colors = new Dictionary<string, double[]>();
-            colors.Add("84351", [255.0, 255.0, 255.0]);//White powder
-            colors.Add("57459", [85.0, 85.0, 85.0]);//Grey powder
-            colors.Add("98606", [255.0, 255.0, 0.0]);//Yellow powder
-            colors.Add("2042", [71.0, 113.0, 255.0]);//Blue powder
-            colors.Add("2071", [55.0, 55.0, 55.0]);//Black powder*/
 
             Dictionary<string, double[]> colors = new Dictionary<string, double[]>{
                 {"84351", new double[] {65025, 65025, 65025 } },//White powder
