@@ -16,3 +16,21 @@ C:\Users\rbattisti\Desktop\Teste Macro Cs\TestSwAddIn4\TestSwAddIn\TestSwAddIn\o
 C:\Users\rbattisti\Desktop\Teste Macro Cs\TestSwAddIn4\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.pdb
 C:\Users\rbattisti\Desktop\Teste Macro Cs\TestSwAddIn4\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.Properties.Resources.resources
 C:\Users\rbattisti\Desktop\Teste Macro Cs\TestSwAddIn4\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.csproj.GenerateResource.cache
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\TestSwAddIn.dll
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\TestSwAddIn.pdb
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\SolidWorks.Interop.sldworks.dll
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\SolidWorks.Interop.swconst.dll
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\SolidWorks.Interop.swpublished.dll
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Xarial.XCad.dll
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Xarial.XCad.SolidWorks.dll
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Xarial.XCad.Toolkit.dll
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Xarial.XCad.xml
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Xarial.XCad.SolidWorks.xml
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Xarial.XCad.Toolkit.xml
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.csproj.AssemblyReference.cache
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.Properties.Resources.resources
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.csproj.GenerateResource.cache
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.csproj.CoreCompileInputs.cache
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAd.A490D176.Up2Date
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.dll
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.pdb

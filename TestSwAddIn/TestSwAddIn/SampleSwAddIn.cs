@@ -8,12 +8,14 @@ using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.SolidWorks;
 using Xarial.XCad.UI.Commands;
 using PaintModelUtilities;
+using System.Windows;
 
 namespace SampleAddIn
 {
     [ComVisible(true)]
     [Guid("1EE37F60-45F7-4FFA-93E2-5ACCC371530F")]
     [Title("Sample AddIn")]
+
     public class TestSampleAddIn : SwAddInEx
     {
         [Title("Sample AddIn")]
@@ -52,7 +54,10 @@ namespace SampleAddIn
                     //SldWorks swApp = null;
                     //SldWorks swApp = new SldWorks();
                     String paintCode = "";
+                    //ModelDoc2 swModel = ((ModelDoc2)(swApp.ActiveDoc));
+                    SldWorks swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
                     ModelDoc2 swModel = ((ModelDoc2)(swApp.ActiveDoc));
+                    
 
                     //ModelDoc2 swModel;
 
@@ -79,9 +84,14 @@ namespace SampleAddIn
                             if (propertyName.ToUpper() == "TRATAMENTO_SUPERFICIAL")
                             {
                                 paintCode = propertyResolvedValue.Split('-')[0];
+                                MessageBox.Show("Color: " +  paintCode);
                                 Console.WriteLine($"Cor: {paintCode}");
                             }
                         }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Properties are null!");
                     }
 
                     Thread.Sleep(500); //This delay is used to avoid SolidWorks crashes
@@ -96,6 +106,6 @@ namespace SampleAddIn
             }
             
         }
-        public SldWorks swApp;
+        //public SldWorks swApp;
     }
 }
