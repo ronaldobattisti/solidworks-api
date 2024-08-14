@@ -9,6 +9,7 @@ using Xarial.XCad.SolidWorks;
 using Xarial.XCad.UI.Commands;
 using PaintModelUtilities;
 using System.Windows;
+using SolidWorks.Interop.swconst;
 
 namespace SampleAddIn
 {
@@ -21,10 +22,10 @@ namespace SampleAddIn
         [Title("Sample AddIn")]
         public enum Commands_e
         {
-            [Title("Hello, world!")]
-            [Description("Show Hello, world!")]
+            [Title("List Components")]
+            [Description("List components")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
-            HelloWorld,
+            ListComponents,
             [Title("Change collor!")]
             [Description("Color changed!")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
@@ -44,58 +45,137 @@ namespace SampleAddIn
             switch (spec)
             {
                 
-                case Commands_e.HelloWorld:
-                    Application.ShowMessageBox("Hello, world!");
+                case Commands_e.ListComponents:
+                    ListComponents();
                     break;
 
-                #region Change Collor
                 case Commands_e.ChangeColor:
-
-                    String paintCode = "";
-
-                    SldWorks swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
-                    ModelDoc2 swModel = ((ModelDoc2)(swApp.ActiveDoc));
-
-                    CustomPropertyManager cusPropMgr = swModel.Extension.CustomPropertyManager[""];
-
-                    string[] propertyNames = (string[])cusPropMgr.GetNames();
-                    if (propertyNames != null)
-                    {
-                        //For each property write its value
-                        foreach (string propertyName in propertyNames)
-                        {
-                            string propertyValue;
-                            string propertyResolvedValue;
-                            bool wasResolved;
-                            cusPropMgr.Get5(propertyName, false, out propertyValue, out propertyResolvedValue, out wasResolved);
-                            Console.WriteLine($"Property: {propertyName}");
-                            Console.WriteLine($"Value: {propertyValue}");
-                            Console.WriteLine($"Resolved Value: {propertyResolvedValue}");
-                            Console.WriteLine($"Resolved: {wasResolved}\n");
-                            if (propertyName.ToUpper() == "TRATAMENTO_SUPERFICIAL")
-                            {
-                                paintCode = propertyResolvedValue.Split('-')[0];
-                                MessageBox.Show("Color: " +  paintCode);
-                                Console.WriteLine($"Cor: {paintCode}");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Properties are null!");
-                    }
-
-                    Thread.Sleep(500); //This delay is used to avoid SolidWorks crashes
-
-                    double[] materialProps = (double[])swModel.MaterialPropertyValues; //get the visual properties of the actual part in a variable
-                    materialProps = Utilities.getColor(paintCode, materialProps); //Send the variable with the cod of the color to the function
-                    swModel.MaterialPropertyValues = materialProps; //The function return a double[] with all properties and color changed
-                    swModel.EditRebuild3();
-            
+                    ChangeCollor();
                     break;
-                #endregion
             }
             
         }
+
+        #region List Components
+        /*private void ListComponents()
+        {
+            ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
+            AssemblyDoc swAssemblyDoc = (AssemblyDoc)swModelDoc;
+
+            String[] str = (String[])swAssemblyDoc.GetComponents(false);
+            foreach (string item in str)
+            {
+                MessageBox.Show(item);
+            }
+        }*/
+
+        private void ListComponents()
+        {
+            swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
+
+            // Get the active document
+            ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
+
+            // Check if the active document is an assembly
+            if (swModelDoc != null && swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
+            {
+                AssemblyDoc swAssemblyDoc = (AssemblyDoc)swModelDoc;
+
+                // Get the root components (top-level components)
+                object[] components = (object[])swAssemblyDoc.GetComponents(false);
+
+                if (components != null)
+                {
+                    foreach (Component2 component in components)
+                    {
+                        // Display the component name
+                        MessageBox.Show(component.Name2);
+
+                        // Optionally, recursively list all subcomponents
+                        ListSubComponents(component);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No components found in the assembly.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("The active document is not an assembly.");
+            }
+        }
+
+        // Recursive method to list subcomponents
+        private void ListSubComponents(Component2 parentComponent)
+        {
+            object[] subComponents = (object[])parentComponent.GetChildren();
+
+            if (subComponents != null)
+            {
+                foreach (Component2 subComponent in subComponents)
+                {
+                    // Display the subcomponent name
+                    MessageBox.Show(subComponent.Name2);
+
+                    // Recursively list subcomponents of this subcomponent
+                    ListSubComponents(subComponent);
+                }
+            }
+        }
+
+
+
+
+        #endregion
+
+        #region Change Collor
+        private void ChangeCollor()
+        {
+            String paintCode = "";
+
+            SldWorks swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
+            ModelDoc2 swModel = ((ModelDoc2)(swApp.ActiveDoc));
+
+            CustomPropertyManager cusPropMgr = swModel.Extension.CustomPropertyManager[""];
+
+            string[] propertyNames = (string[])cusPropMgr.GetNames();
+            if (propertyNames != null)
+            {
+                //For each property write its value
+                foreach (string propertyName in propertyNames)
+                {
+                    string propertyValue;
+                    string propertyResolvedValue;
+                    bool wasResolved;
+                    cusPropMgr.Get5(propertyName, false, out propertyValue, out propertyResolvedValue, out wasResolved);
+                    Console.WriteLine($"Property: {propertyName}");
+                    Console.WriteLine($"Value: {propertyValue}");
+                    Console.WriteLine($"Resolved Value: {propertyResolvedValue}");
+                    Console.WriteLine($"Resolved: {wasResolved}\n");
+                    if (propertyName.ToUpper() == "TRATAMENTO_SUPERFICIAL")
+                    {
+                        paintCode = propertyResolvedValue.Split('-')[0];
+                        MessageBox.Show("Color: " + paintCode);
+                        Console.WriteLine($"Cor: {paintCode}");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Properties are null!");
+            }
+
+            //Thread.Sleep(500); //This delay is used to avoid SolidWorks crashes
+
+            double[] materialProps = (double[])swModel.MaterialPropertyValues; //get the visual properties of the actual part in a variable
+            materialProps = Utilities.getColor(paintCode, materialProps); //Send the variable with the cod of the color to the function
+            swModel.MaterialPropertyValues = materialProps; //The function return a double[] with all properties and color changed
+            swModel.EditRebuild3();
+        }
+        #endregion
+
+
+        SldWorks swApp;
     }
 }
