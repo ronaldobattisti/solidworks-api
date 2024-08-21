@@ -22,5 +22,18 @@ namespace PaintModelUtilities{
             //return the entire property changing just the collor
             return materialProps;
         }
+
+        public static List<string> removeDuplicated(List<string> list)
+        {
+            List<string> listFiltered = new List<string>();
+            foreach (string item in list)
+            {
+                if (listFiltered.Contains(item) == false)
+                {
+                    listFiltered.Add(item);
+                }
+            }
+            return listFiltered;
+        }
     }
 }

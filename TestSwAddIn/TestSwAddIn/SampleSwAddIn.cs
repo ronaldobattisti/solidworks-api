@@ -10,6 +10,8 @@ using Xarial.XCad.UI.Commands;
 using PaintModelUtilities;
 using System.Windows;
 using SolidWorks.Interop.swconst;
+using System.Collections.Generic;
+using TestSwAddIn.Forms;
 
 namespace SampleAddIn
 {
@@ -71,6 +73,10 @@ namespace SampleAddIn
 
         private void ListComponents()
         {
+            List<string> list = new List<string>();
+
+            string msg = "";
+
             swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
 
             // Get the active document
@@ -88,12 +94,19 @@ namespace SampleAddIn
                 {
                     foreach (Component2 component in components)
                     {
+                        list.Add(component.Name2.Split('-')[0]);
                         // Display the component name
-                        MessageBox.Show(component.Name2);
+                        //MessageBox.Show(component.Name2);
 
                         // Optionally, recursively list all subcomponents
-                        ListSubComponents(component);
+                        list.AddRange(ListSubComponents(component));
+                        
                     }
+                    list = Utilities.removeDuplicated(list);
+                    string s = String.Join(",", list);
+                    MessageBox.Show(s);
+                    SelectChildren sc = new SelectChildren();
+                    sc.ShowDialog();
                 }
                 else
                 {
@@ -104,24 +117,29 @@ namespace SampleAddIn
             {
                 MessageBox.Show("The active document is not an assembly.");
             }
+            
         }
 
         // Recursive method to list subcomponents
-        private void ListSubComponents(Component2 parentComponent)
+        private List<string> ListSubComponents(Component2 parentComponent)
         {
+            List<string> list = new List<string>();
+
             object[] subComponents = (object[])parentComponent.GetChildren();
 
             if (subComponents != null)
             {
                 foreach (Component2 subComponent in subComponents)
                 {
+                    list.Add(subComponent.Name2);
                     // Display the subcomponent name
-                    MessageBox.Show(subComponent.Name2);
+                    //MessageBox.Show(subComponent.Name2);
 
                     // Recursively list subcomponents of this subcomponent
-                    ListSubComponents(subComponent);
+                    list.AddRange(ListSubComponents(subComponent));
                 }
             }
+            return list;
         }
 
 
