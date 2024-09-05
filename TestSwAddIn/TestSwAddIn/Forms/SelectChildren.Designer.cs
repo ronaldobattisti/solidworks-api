@@ -28,23 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.clbChildren = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
-            // checkedListBox1
+            // clbChildren
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(12, 12);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(131, 409);
-            this.checkedListBox1.TabIndex = 0;
+            this.clbChildren.FormattingEnabled = true;
+            this.clbChildren.Location = new System.Drawing.Point(12, 12);
+            this.clbChildren.Name = "clbChildren";
+            this.clbChildren.Size = new System.Drawing.Size(514, 409);
+            this.clbChildren.TabIndex = 0;
+            this.clbChildren.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
             // SelectChildren
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.checkedListBox1);
+            this.Controls.Add(this.clbChildren);
             this.Name = "SelectChildren";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -53,6 +54,6 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox clbChildren;
     }
 }

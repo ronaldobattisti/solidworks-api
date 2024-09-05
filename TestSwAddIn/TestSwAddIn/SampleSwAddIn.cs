@@ -73,18 +73,18 @@ namespace SampleAddIn
 
         private void ListComponents()
         {
-            List<string> list = new List<string>();
-
-            string msg = "";
+            //Create a list of objects where all components will be stored
+            List<object> objChildrenList = new List<object>();
 
             swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
 
-            // Get the active document
+            //Get the active document
             ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
 
             // Check if the active document is an assembly
             if (swModelDoc != null && swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
             {
+                
                 AssemblyDoc swAssemblyDoc = (AssemblyDoc)swModelDoc;
 
                 // Get the root components (top-level components)
@@ -94,18 +94,27 @@ namespace SampleAddIn
                 {
                     foreach (Component2 component in components)
                     {
-                        list.Add(component.Name2.Split('-')[0]);
+                        objChildrenList.Add(component);
                         // Display the component name
                         //MessageBox.Show(component.Name2);
 
                         // Optionally, recursively list all subcomponents
-                        list.AddRange(ListSubComponents(component));
+                        objChildrenList.AddRange(ListSubComponents(component));
                         
                     }
-                    list = Utilities.removeDuplicated(list);
-                    string s = String.Join(",", list);
-                    MessageBox.Show(s);
-                    SelectChildren sc = new SelectChildren();
+
+                    /*//Dictionary<string, string> dctChildren = new Dictionary<string, string>();
+                    List<string> lstChildren = new List<string>();
+
+                    foreach (object item in objChildrenList)
+                    {
+                        lstChildren.Add(item.ToString());
+                        //item
+                    }*/
+
+
+
+                    SelectChildren sc = new SelectChildren(objChildrenList);
                     sc.ShowDialog();
                 }
                 else
