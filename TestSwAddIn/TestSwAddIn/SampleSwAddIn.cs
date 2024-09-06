@@ -99,8 +99,10 @@ namespace SampleAddIn
                         //MessageBox.Show(component.Name2);
 
                         // Optionally, recursively list all subcomponents
-                        objChildrenList.AddRange(ListSubComponents(component));
-                        
+                        if (swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
+                        {
+                            objChildrenList.AddRange(ListSubComponents(component));
+                        }
                     }
 
                     /*//Dictionary<string, string> dctChildren = new Dictionary<string, string>();
@@ -130,9 +132,9 @@ namespace SampleAddIn
         }
 
         // Recursive method to list subcomponents
-        private List<string> ListSubComponents(Component2 parentComponent)
+        private List<object> ListSubComponents(Component2 parentComponent)
         {
-            List<string> list = new List<string>();
+            List<object> list = new List<object>();
 
             object[] subComponents = (object[])parentComponent.GetChildren();
 
@@ -140,7 +142,7 @@ namespace SampleAddIn
             {
                 foreach (Component2 subComponent in subComponents)
                 {
-                    list.Add(subComponent.Name2);
+                    list.Add(subComponent);
                     // Display the subcomponent name
                     //MessageBox.Show(subComponent.Name2);
 
