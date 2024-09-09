@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Threading;
 using TestSwAddIn.Properties;
 using Xarial.XCad.Base.Attributes;
 using Xarial.XCad.SolidWorks;
@@ -12,6 +11,7 @@ using System.Windows;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using TestSwAddIn.Forms;
+using Utils;
 
 namespace SampleAddIn
 {
@@ -42,34 +42,28 @@ namespace SampleAddIn
 
         private void CmGrp_CommandClick(Commands_e spec)
         {
-            
+            ListComponents lc = new ListComponents();
 
             switch (spec)
             {
                 
                 case Commands_e.ListComponents:
-                    ListComponents();
+                    //ListComponents();
+                    List<object> children = new List<object>();
+                    children = lc.ListChildrenComponents();
+                    SelectChildren sc = new SelectChildren(children);
+                    sc.ShowDialog();
                     break;
 
                 case Commands_e.ChangeColor:
-                    ChangeCollor();
+                    //ChangeCollor();
+                    lc.ChangeCollor();
                     break;
             }
             
         }
-
+        /*
         #region List Components
-        /*private void ListComponents()
-        {
-            ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
-            AssemblyDoc swAssemblyDoc = (AssemblyDoc)swModelDoc;
-
-            String[] str = (String[])swAssemblyDoc.GetComponents(false);
-            foreach (string item in str)
-            {
-                MessageBox.Show(item);
-            }
-        }*/
 
         private void ListComponents()
         {
@@ -104,17 +98,6 @@ namespace SampleAddIn
                             objChildrenList.AddRange(ListSubComponents(component));
                         }
                     }
-
-                    /*//Dictionary<string, string> dctChildren = new Dictionary<string, string>();
-                    List<string> lstChildren = new List<string>();
-
-                    foreach (object item in objChildrenList)
-                    {
-                        lstChildren.Add(item.ToString());
-                        //item
-                    }*/
-
-
 
                     SelectChildren sc = new SelectChildren(objChildrenList);
                     sc.ShowDialog();
@@ -206,5 +189,6 @@ namespace SampleAddIn
 
 
         SldWorks swApp;
+        */
     }
 }
