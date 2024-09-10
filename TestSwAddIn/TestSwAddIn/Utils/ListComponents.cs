@@ -4,7 +4,7 @@ using System.Windows;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using TestSwAddIn.Forms;
-using System;
+using System.Linq;
 
 namespace Utils
 {
@@ -13,13 +13,22 @@ namespace Utils
 
         public List<object> ListChildrenComponents()
         {
+            //Returns a List<Component2> with all children components of the assembly
+            //The list will contain dupes objects because is contains the quantity of
+            //each one inside the assembly - If you have twi components "asd", one object
+            //will be "asd - 1" and other "asd - 2" - so you have to filter de dupes after
+
             //Create a list of objects where all components will be stored
             List<object> objChildrenList = new List<object>();
+            List<object> objChildrenListNoDupes = new List<object>();
 
             swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
 
             //Get the active document
             ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
+            ModelDoc2 modelDoc = null;
+            int errors = 0;
+            int warnings = 0;
 
             // Check if the active document is an assembly
             if (swModelDoc != null && swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
@@ -35,17 +44,45 @@ namespace Utils
                     foreach (Component2 component in components)
                     {
                         objChildrenList.Add(component);
-                        // Display the component name
-                        //MessageBox.Show(component.Name2);
 
-                        // Optionally, recursively list all subcomponents
+                        // Recursively list all subcomponents
                         if (swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
                         {
                             objChildrenList.AddRange(ListSubComponents(component));
+                            objChildrenListNoDupes.Add(component);
                         }
                     }
 
                     SelectChildren sc = new SelectChildren(objChildrenList);
+                    
+                    //Getting the filepath of each component with drawing
+                    string drawingPath = "";
+                    List<string> filePaths = new List<string>();
+                    //List<string> filePathsNoDupes = new List<string>();
+
+                    foreach (Component2 item in objChildrenList)
+                    {
+                        DocumentSpecification swDocSpecification = default(DocumentSpecification);
+                        swDocSpecification = (DocumentSpecification)swApp.GetOpenDocSpec(item.GetPathName());
+                        drawingPath = System.IO.Path.ChangeExtension(item.GetPathName(), "slddrw");
+                        if (System.IO.File.Exists(drawingPath) && (objChildrenListNoDupes.Contains(item) == false))
+                        {
+                            //filePaths.Add(drawingPath);
+                            objChildrenListNoDupes.Add(item);
+                        }
+                        //filePathsNoDupes = filePaths.Distinct().ToList();  
+                    }
+                    foreach (Component2 filePath in objChildrenListNoDupes)
+                    {
+                        //Is still returing dupes I think I'll compare each object file to solve it
+                        MessageBox.Show("Path: " + filePath.GetPathName());
+                        //The second argument could be a 3 to open just the drawings
+                        //modelDoc = swApp.OpenDoc6(filePath, (int)swDocumentTypes_e.swDocDRAWING, (int)swOpenDocOptions_e.swOpenDocOptions_ReadOnly, "", ref errors, ref warnings);
+                        //swApp.CloseDoc(filePath.Split('\\')[filePath.Split('\\').Length-1].Split('.')[0]);
+                        //MessageBox.Show()
+                        //string filename = 
+                    }
+
                     sc.ShowDialog();
                 }
                 else
@@ -82,49 +119,7 @@ namespace Utils
             return list;
         }
 
-        public void ChangeCollor()
-        {
-            String paintCode = "";
-
-            SldWorks swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
-            ModelDoc2 swModel = ((ModelDoc2)(swApp.ActiveDoc));
-
-            CustomPropertyManager cusPropMgr = swModel.Extension.CustomPropertyManager[""];
-
-            string[] propertyNames = (string[])cusPropMgr.GetNames();
-            if (propertyNames != null)
-            {
-                //For each property write its value
-                foreach (string propertyName in propertyNames)
-                {
-                    string propertyValue;
-                    string propertyResolvedValue;
-                    bool wasResolved;
-                    cusPropMgr.Get5(propertyName, false, out propertyValue, out propertyResolvedValue, out wasResolved);
-                    Console.WriteLine($"Property: {propertyName}");
-                    Console.WriteLine($"Value: {propertyValue}");
-                    Console.WriteLine($"Resolved Value: {propertyResolvedValue}");
-                    Console.WriteLine($"Resolved: {wasResolved}\n");
-                    if (propertyName.ToUpper() == "TRATAMENTO_SUPERFICIAL")
-                    {
-                        paintCode = propertyResolvedValue.Split('-')[0];
-                        MessageBox.Show("Color: " + paintCode);
-                        Console.WriteLine($"Cor: {paintCode}");
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Properties are null!");
-            }
-
-            //Thread.Sleep(500); //This delay is used to avoid SolidWorks crashes
-
-            double[] materialProps = (double[])swModel.MaterialPropertyValues; //get the visual properties of the actual part in a variable
-            materialProps = PaintModelUtilities.Utilities.getColor(paintCode, materialProps); //Send the variable with the cod of the color to the function
-            swModel.MaterialPropertyValues = materialProps; //The function return a double[] with all properties and color changed
-            swModel.EditRebuild3();
-        }
+        
 
         SldWorks swApp;
     }
