@@ -80,11 +80,14 @@ namespace Utils
 
                     MessageBox.Show("filePaths contains the following items: \n" + string.Join("\n", filePaths));
 
+                    DocumentSpecification swDocSpecification = default(DocumentSpecification);
+                    ModelDoc2 doc;
+
                     foreach (Component2 filePath in objChildrenListNoDupes)
                     {
                         //****Still couldn't open each file...*********//
                         fileExtension = filePath.GetPathName().Split('.')[filePath.GetPathName().Split('.').Length-1].ToUpper();
-                        MessageBox.Show("Path: " + filePath.GetPathName() + 
+                        MessageBox.Show("Path: " + filePath.GetPathName().Replace("\\", "/") + 
                             "\nExtension: " + fileExtension + 
                             "\nIts supression state is: " + filePath.GetSuppression2());
                         //To open the file, I need to send what type of file it is:
@@ -103,8 +106,19 @@ namespace Utils
                                 break;
                         }
                         //The second argument could be a 3 to open just the drawings
-                        /*modelDoc = */swApp.OpenDoc6(filePath.GetPathName(), intFileExtension, (int)swOpenDocOptions_e.swOpenDocOptions_LoadLightweight, "", ref errors, ref warnings);
-                        swApp.CloseDoc(filePath.GetPathName());
+                        //swApp.OpenDoc6(filePath.GetPathName().Replace("\\", "/"), 1, (int)swOpenDocOptions_e.swOpenDocOptions_LoadLightweight, "", ref errors, ref warnings);
+                        //swApp.CloseDoc(filePath.GetPathName());
+                        swDocSpecification = (DocumentSpecification)swApp.GetOpenDocSpec(filePath.GetPathName().Replace("\\", "/"));
+                        //swDocSpecification.DisplayState = "Default_Display State-1";
+                        swDocSpecification.ComponentList = components;
+                        swDocSpecification.Selective = true;
+                        swDocSpecification.DocumentType = (int)swDocumentTypes_e.swDocASSEMBLY;
+                        swDocSpecification.UseLightWeightDefault = false;
+                        //bool isLightweight = filePath.IsLightWeight();
+                        swDocSpecification.LightWeight = true;
+                        swDocSpecification.Silent = false;
+                        swApp.OpenDoc7(swDocSpecification);
+
                     }
                 }
                 else
