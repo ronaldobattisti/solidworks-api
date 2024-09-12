@@ -22,7 +22,7 @@ namespace TestSwAddIn.Forms
             //clbChildren.Items.AddRange(children);
             foreach (Component2 item in lstChildren)
             {
-                clbChildren.Items.Add(item.Name2);
+                clbChildren.Items.Add(item.Name);
                 clbChildren.Items.Add(item.GetPathName());
             }
             clbChildren.Update();

@@ -5,6 +5,7 @@ using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using TestSwAddIn.Forms;
 using System.Linq;
+using System;
 
 namespace Utils
 {
@@ -17,6 +18,7 @@ namespace Utils
             //The list will contain dupes objects because is contains the quantity of
             //each one inside the assembly - If you have twi components "asd", one object
             //will be "asd - 1" and other "asd - 2" - so you have to filter de dupes after
+            //Just add components that aren't supressed
 
             //Create a list of objects where all components will be stored
             List<object> objChildrenList = new List<object>();
@@ -27,6 +29,8 @@ namespace Utils
             //Get the active document
             ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
             ModelDoc2 modelDoc = null;
+            string fileExtension;
+            int intFileExtension = 0;
             int errors = 0;
             int warnings = 0;
 
@@ -43,17 +47,17 @@ namespace Utils
                 {
                     foreach (Component2 component in components)
                     {
-                        objChildrenList.Add(component);
-
-                        // Recursively list all subcomponents
-                        if (swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
-                        {
-                            objChildrenList.AddRange(ListSubComponents(component));
-                            objChildrenListNoDupes.Add(component);
+                        //Check if subcomponent is not supressed
+                        if (component.GetSuppression2() != 0)
+                        { 
+                            objChildrenList.Add(component);
+                            // Recursively list all subcomponents
+                            if (swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
+                            {
+                                objChildrenList.AddRange(ListSubComponents(component));
+                            }
                         }
                     }
-
-                    SelectChildren sc = new SelectChildren(objChildrenList);
                     
                     //Getting the filepath of each component with drawing
                     string drawingPath = "";
@@ -62,28 +66,46 @@ namespace Utils
 
                     foreach (Component2 item in objChildrenList)
                     {
-                        DocumentSpecification swDocSpecification = default(DocumentSpecification);
-                        swDocSpecification = (DocumentSpecification)swApp.GetOpenDocSpec(item.GetPathName());
+                        //DocumentSpecification swDocSpecification = default(DocumentSpecification);
+                        //swDocSpecification = (DocumentSpecification)swApp.GetOpenDocSpec(item.GetPathName());
                         drawingPath = System.IO.Path.ChangeExtension(item.GetPathName(), "slddrw");
-                        if (System.IO.File.Exists(drawingPath) && (objChildrenListNoDupes.Contains(item) == false))
+                        
+                        //Create a List with all objects that contains drawing and without dupes
+                        if (filePaths.Contains(item.GetPathName()) == false)
                         {
-                            //filePaths.Add(drawingPath);
+                            filePaths.Add(item.GetPathName());
                             objChildrenListNoDupes.Add(item);
                         }
-                        //filePathsNoDupes = filePaths.Distinct().ToList();  
-                    }
-                    foreach (Component2 filePath in objChildrenListNoDupes)
-                    {
-                        //Is still returing dupes I think I'll compare each object file to solve it
-                        MessageBox.Show("Path: " + filePath.GetPathName());
-                        //The second argument could be a 3 to open just the drawings
-                        //modelDoc = swApp.OpenDoc6(filePath, (int)swDocumentTypes_e.swDocDRAWING, (int)swOpenDocOptions_e.swOpenDocOptions_ReadOnly, "", ref errors, ref warnings);
-                        //swApp.CloseDoc(filePath.Split('\\')[filePath.Split('\\').Length-1].Split('.')[0]);
-                        //MessageBox.Show()
-                        //string filename = 
                     }
 
-                    sc.ShowDialog();
+                    MessageBox.Show("filePaths contains the following items: \n" + string.Join("\n", filePaths));
+
+                    foreach (Component2 filePath in objChildrenListNoDupes)
+                    {
+                        //****Still couldn't open each file...*********//
+                        fileExtension = filePath.GetPathName().Split('.')[filePath.GetPathName().Split('.').Length-1].ToUpper();
+                        MessageBox.Show("Path: " + filePath.GetPathName() + 
+                            "\nExtension: " + fileExtension + 
+                            "\nIts supression state is: " + filePath.GetSuppression2());
+                        //To open the file, I need to send what type of file it is:
+                        //1 - Part
+                        //2 - Assembly
+                        //3 - Drawing
+                        switch (fileExtension){
+                            case "SLDPRT":
+                                intFileExtension = 1;
+                                break;
+                            case "SLDASM":
+                                intFileExtension = 2;
+                                break;
+                            case "SLDDRW":
+                                intFileExtension = 3;
+                                break;
+                        }
+                        //The second argument could be a 3 to open just the drawings
+                        /*modelDoc = */swApp.OpenDoc6(filePath.GetPathName(), intFileExtension, (int)swOpenDocOptions_e.swOpenDocOptions_LoadLightweight, "", ref errors, ref warnings);
+                        swApp.CloseDoc(filePath.GetPathName());
+                    }
                 }
                 else
                 {
@@ -94,7 +116,7 @@ namespace Utils
             {
                 MessageBox.Show("The active document is not an assembly.");
             }
-            return objChildrenList;
+            return objChildrenListNoDupes;
         }
 
         // Recursive method to list subcomponents
@@ -108,19 +130,16 @@ namespace Utils
             {
                 foreach (Component2 subComponent in subComponents)
                 {
-                    list.Add(subComponent);
-                    // Display the subcomponent name
-                    //MessageBox.Show(subComponent.Name2);
-
-                    // Recursively list subcomponents of this subcomponent
-                    list.AddRange(ListSubComponents(subComponent));
+                    //Check if subcomponent is not supressed
+                    if (subComponent.GetSuppression2() != 0)
+                    {
+                        list.Add(subComponent);
+                        list.AddRange(ListSubComponents(subComponent));
+                    } 
                 }
             }
             return list;
         }
-
-        
-
         SldWorks swApp;
     }
 }

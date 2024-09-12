@@ -8,6 +8,7 @@ using Xarial.XCad.UI.Commands;
 using System.Collections.Generic;
 using Utils;
 using TestSwAddIn.Utils;
+using TestSwAddIn.Forms;
 
 namespace SampleAddIn
 {
@@ -46,6 +47,8 @@ namespace SampleAddIn
                 case Commands_e.ListComponents:
                     List<object> children = new List<object>();
                     children = lc.ListChildrenComponents();
+                    SelectChildren sc = new SelectChildren(children);
+                    sc.ShowDialog();
                     break;
 
                 case Commands_e.ChangeColor:
