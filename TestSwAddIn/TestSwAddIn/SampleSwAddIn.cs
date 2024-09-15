@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Utils;
 using TestSwAddIn.Utils;
 using TestSwAddIn.Forms;
+using SolidWorks.Interop.sldworks;
 
 namespace SampleAddIn
 {
@@ -21,8 +22,8 @@ namespace SampleAddIn
         [Title("Sample AddIn")]
         public enum Commands_e
         {
-            [Title("List Components")]
-            [Description("List components")]
+            [Title("Change collor")]
+            [Description("Change color for every selected item")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
             ListComponents,
             [Title("Change collor!")]
@@ -45,7 +46,7 @@ namespace SampleAddIn
             switch (spec)
             {
                 case Commands_e.ListComponents:
-                    List<object> children = new List<object>();
+                    List<Component2> children = new List<Component2>();
                     children = lc.ListChildrenComponents();
                     SelectChildren sc = new SelectChildren(children);
                     sc.ShowDialog();

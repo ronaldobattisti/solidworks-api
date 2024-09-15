@@ -12,7 +12,7 @@ namespace Utils
     class ListComponents
     {
 
-        public List<object> ListChildrenComponents()
+        public List<Component2> ListChildrenComponents()
         {
             //Returns a List<Component2> with all children components of the assembly
             //The list will contain dupes objects because is contains the quantity of
@@ -21,18 +21,14 @@ namespace Utils
             //Just add components that aren't supressed
 
             //Create a list of objects where all components will be stored
-            List<object> objChildrenList = new List<object>();
-            List<object> objChildrenListNoDupes = new List<object>();
+            List<Component2> objChildrenList = new List<Component2>();
+            List<Component2> objChildrenListNoDupes = new List<Component2>();
 
             swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
 
             //Get the active document
             ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
             ModelDoc2 modelDoc = null;
-            string fileExtension;
-            int intFileExtension = 0;
-            int errors = 0;
-            int warnings = 0;
 
             // Check if the active document is an assembly
             if (swModelDoc != null && swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
@@ -78,48 +74,12 @@ namespace Utils
                         }
                     }
 
-                    MessageBox.Show("filePaths contains the following items: \n" + string.Join("\n", filePaths));
+                    //MessageBox.Show("filePaths contains the following items: \n" + string.Join("\n", filePaths));
 
-                    DocumentSpecification swDocSpecification = default(DocumentSpecification);
-                    ModelDoc2 doc;
+                    //DocumentSpecification swDocSpecification = default(DocumentSpecification);
+                    //ModelDoc2 doc;
 
-                    foreach (Component2 filePath in objChildrenListNoDupes)
-                    {
-                        //****Still couldn't open each file...*********//
-                        fileExtension = filePath.GetPathName().Split('.')[filePath.GetPathName().Split('.').Length-1].ToUpper();
-                        MessageBox.Show("Path: " + filePath.GetPathName().Replace("\\", "/") + 
-                            "\nExtension: " + fileExtension + 
-                            "\nIts supression state is: " + filePath.GetSuppression2());
-                        //To open the file, I need to send what type of file it is:
-                        //1 - Part
-                        //2 - Assembly
-                        //3 - Drawing
-                        switch (fileExtension){
-                            case "SLDPRT":
-                                intFileExtension = 1;
-                                break;
-                            case "SLDASM":
-                                intFileExtension = 2;
-                                break;
-                            case "SLDDRW":
-                                intFileExtension = 3;
-                                break;
-                        }
-                        //The second argument could be a 3 to open just the drawings
-                        //swApp.OpenDoc6(filePath.GetPathName().Replace("\\", "/"), 1, (int)swOpenDocOptions_e.swOpenDocOptions_LoadLightweight, "", ref errors, ref warnings);
-                        //swApp.CloseDoc(filePath.GetPathName());
-                        swDocSpecification = (DocumentSpecification)swApp.GetOpenDocSpec(filePath.GetPathName().Replace("\\", "/"));
-                        //swDocSpecification.DisplayState = "Default_Display State-1";
-                        swDocSpecification.ComponentList = components;
-                        swDocSpecification.Selective = true;
-                        swDocSpecification.DocumentType = (int)swDocumentTypes_e.swDocASSEMBLY;
-                        swDocSpecification.UseLightWeightDefault = false;
-                        //bool isLightweight = filePath.IsLightWeight();
-                        swDocSpecification.LightWeight = true;
-                        swDocSpecification.Silent = false;
-                        swApp.OpenDoc7(swDocSpecification);
-
-                    }
+                    
                 }
                 else
                 {
@@ -130,13 +90,16 @@ namespace Utils
             {
                 MessageBox.Show("The active document is not an assembly.");
             }
+            //DocumentSpecification swDocSpecification = default(DocumentSpecification);
+            //swDocSpecification = (DocumentSpecification)swApp.GetOpenDocSpec("C:/Users/rbattisti/Desktop/Valvula retencao/360550.SLDPRT");
+
             return objChildrenListNoDupes;
         }
 
         // Recursive method to list subcomponents
-        private List<object> ListSubComponents(Component2 parentComponent)
+        private List<Component2> ListSubComponents(Component2 parentComponent)
         {
-            List<object> list = new List<object>();
+            List<Component2> list = new List<Component2>();
 
             object[] subComponents = (object[])parentComponent.GetChildren();
 

@@ -30,6 +30,8 @@
         {
             this.clbChildren = new System.Windows.Forms.CheckedListBox();
             this.btnSavePdf = new System.Windows.Forms.Button();
+            this.btnSelectAll = new System.Windows.Forms.Button();
+            this.btnUnselectAll = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // clbChildren
@@ -49,12 +51,35 @@
             this.btnSavePdf.TabIndex = 1;
             this.btnSavePdf.Text = "Save PDF";
             this.btnSavePdf.UseVisualStyleBackColor = true;
+            this.btnSavePdf.Click += new System.EventHandler(this.btnSavePdf_Click);
+            // 
+            // btnSelectAll
+            // 
+            this.btnSelectAll.Location = new System.Drawing.Point(12, 440);
+            this.btnSelectAll.Name = "btnSelectAll";
+            this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAll.TabIndex = 1;
+            this.btnSelectAll.Text = "Select All";
+            this.btnSelectAll.UseVisualStyleBackColor = true;
+            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            // 
+            // btnUnselectAll
+            // 
+            this.btnUnselectAll.Location = new System.Drawing.Point(93, 440);
+            this.btnUnselectAll.Name = "btnUnselectAll";
+            this.btnUnselectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnUnselectAll.TabIndex = 1;
+            this.btnUnselectAll.Text = "Unselect All";
+            this.btnUnselectAll.UseVisualStyleBackColor = true;
+            this.btnUnselectAll.Click += new System.EventHandler(this.btnUnselectAll_Click);
             // 
             // SelectChildren
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 494);
+            this.ClientSize = new System.Drawing.Size(369, 494);
+            this.Controls.Add(this.btnUnselectAll);
+            this.Controls.Add(this.btnSelectAll);
             this.Controls.Add(this.btnSavePdf);
             this.Controls.Add(this.clbChildren);
             this.Name = "SelectChildren";
@@ -67,5 +92,7 @@
 
         private System.Windows.Forms.CheckedListBox clbChildren;
         private System.Windows.Forms.Button btnSavePdf;
+        private System.Windows.Forms.Button btnSelectAll;
+        private System.Windows.Forms.Button btnUnselectAll;
     }
 }

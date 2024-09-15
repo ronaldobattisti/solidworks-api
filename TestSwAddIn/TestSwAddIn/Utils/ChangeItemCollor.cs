@@ -37,8 +37,8 @@ namespace TestSwAddIn.Utils
                     if (propertyName.ToUpper() == "TRATAMENTO_SUPERFICIAL")
                     {
                         paintCode = propertyResolvedValue.Split('-')[0];
-                        MessageBox.Show("Color: " + paintCode);
-                        Console.WriteLine($"Cor: {paintCode}");
+                        //MessageBox.Show("Color: " + paintCode);
+                        //Console.WriteLine($"Cor: {paintCode}");
                     }
                 }
             }
