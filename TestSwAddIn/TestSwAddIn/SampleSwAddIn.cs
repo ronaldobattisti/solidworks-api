@@ -22,14 +22,14 @@ namespace SampleAddIn
         [Title("Sample AddIn")]
         public enum Commands_e
         {
-            [Title("Change collor")]
+            [Title("Change color")]
             [Description("Change color for every selected item")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
-            ListComponents,
-            [Title("Change collor!")]
-            [Description("Color changed!")]
+            ChangeColor,
+            /*[Title("Change color!")]
+            [Description("Change color")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
-            ChangeColor
+            ChangeColor*/
         }
 
         public override void OnConnect()
@@ -45,16 +45,16 @@ namespace SampleAddIn
 
             switch (spec)
             {
-                case Commands_e.ListComponents:
+                case Commands_e.ChangeColor:
                     List<Component2> children = new List<Component2>();
                     children = lc.ListChildrenComponents();
                     SelectChildren sc = new SelectChildren(children);
                     sc.ShowDialog();
                     break;
 
-                case Commands_e.ChangeColor:
+                /*case Commands_e.ChangeColor:
                     cit.ChangeCollor();
-                    break;
+                    break;*/
             }
         }
     }

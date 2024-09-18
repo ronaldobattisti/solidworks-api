@@ -45,11 +45,11 @@
             // 
             // btnSavePdf
             // 
-            this.btnSavePdf.Location = new System.Drawing.Point(277, 440);
+            this.btnSavePdf.Location = new System.Drawing.Point(273, 440);
             this.btnSavePdf.Name = "btnSavePdf";
-            this.btnSavePdf.Size = new System.Drawing.Size(75, 23);
+            this.btnSavePdf.Size = new System.Drawing.Size(79, 23);
             this.btnSavePdf.TabIndex = 1;
-            this.btnSavePdf.Text = "Save PDF";
+            this.btnSavePdf.Text = "Change Color";
             this.btnSavePdf.UseVisualStyleBackColor = true;
             this.btnSavePdf.Click += new System.EventHandler(this.btnSavePdf_Click);
             // 
