@@ -20,8 +20,7 @@ namespace TestSwAddIn.Forms
             InitializeComponent();
             foreach (Component2 item in fstChildren)
             {
-                clbChildren.Items.Add(item.Name2);
-                //clbChildren.Items.Add(item.GetPathName());
+                clbChildren.Items.Add(System.IO.Path.GetFileNameWithoutExtension(item.GetPathName()));
             }
             //clbChildren.SelectionMode = SelectionMode.MultiExtended;
             clbChildren.Update();

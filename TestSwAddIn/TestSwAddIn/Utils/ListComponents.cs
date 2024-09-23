@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
+using PaintModelUtilities;
 using TestSwAddIn.Forms;
 using System.Linq;
 using System;
@@ -11,12 +12,11 @@ namespace Utils
 {
     class ListComponents
     {
-
         public List<Component2> ListChildrenComponents()
         {
             //Returns a List<Component2> with all children components of the assembly
             //The list will contain dupes objects because is contains the quantity of
-            //each one inside the assembly - If you have twi components "asd", one object
+            //each one inside the assembly - If you have two components "asd", one object
             //will be "asd - 1" and other "asd - 2" - so you have to filter de dupes after
             //Just add components that aren't supressed
 
@@ -28,16 +28,17 @@ namespace Utils
 
             //Get the active document
             ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
-            ModelDoc2 modelDoc = null;
+            //objChildrenList.Add((component2)swApp.ActivateDoc);
 
             // Check if the active document is an assembly
             if (swModelDoc != null && swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
             {
 
                 AssemblyDoc swAssemblyDoc = (AssemblyDoc)swModelDoc;
-
+                ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
+                
                 // Get the root components (top-level components)
-                object[] components = (object[])swAssemblyDoc.GetComponents(false);
+                object[] components = (object[])swAssemblyDoc.GetComponents(true);
 
                 if (components != null)
                 {
@@ -48,7 +49,7 @@ namespace Utils
                         { 
                             objChildrenList.Add(component);
                             // Recursively list all subcomponents
-                            if (swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
+                            if (Utilities.component2IsAssembly(component))
                             {
                                 objChildrenList.AddRange(ListSubComponents(component));
                             }
@@ -56,16 +57,11 @@ namespace Utils
                     }
                     
                     //Getting the filepath of each component with drawing
-                    string drawingPath = "";
                     List<string> filePaths = new List<string>();
                     //List<string> filePathsNoDupes = new List<string>();
 
                     foreach (Component2 item in objChildrenList)
-                    {
-                        //DocumentSpecification swDocSpecification = default(DocumentSpecification);
-                        //swDocSpecification = (DocumentSpecification)swApp.GetOpenDocSpec(item.GetPathName());
-                        drawingPath = System.IO.Path.ChangeExtension(item.GetPathName(), "slddrw");
-                        
+                    {                        
                         //Create a List with all objects that contains drawing and without dupes
                         if (filePaths.Contains(item.GetPathName()) == false)
                         {
@@ -73,13 +69,6 @@ namespace Utils
                             objChildrenListNoDupes.Add(item);
                         }
                     }
-
-                    //MessageBox.Show("filePaths contains the following items: \n" + string.Join("\n", filePaths));
-
-                    //DocumentSpecification swDocSpecification = default(DocumentSpecification);
-                    //ModelDoc2 doc;
-
-                    
                 }
                 else
                 {
@@ -92,7 +81,12 @@ namespace Utils
             }
             //DocumentSpecification swDocSpecification = default(DocumentSpecification);
             //swDocSpecification = (DocumentSpecification)swApp.GetOpenDocSpec("C:/Users/rbattisti/Desktop/Valvula retencao/360550.SLDPRT");
-
+            String message = "";
+            foreach (Component2 item in objChildrenList)
+            {
+                message = message + "\n" + System.IO.Path.GetFileName(item.GetPathName());
+            }
+            //MessageBox.Show("The items in list are:\n" + message);
             return objChildrenListNoDupes;
         }
 
@@ -111,7 +105,11 @@ namespace Utils
                     if (subComponent.GetSuppression2() != 0)
                     {
                         list.Add(subComponent);
-                        list.AddRange(ListSubComponents(subComponent));
+                        if (Utilities.component2IsAssembly(subComponent))
+                        {
+                            ListSubComponents(subComponent);
+                            list.AddRange(ListSubComponents(subComponent));
+                        }
                     } 
                 }
             }

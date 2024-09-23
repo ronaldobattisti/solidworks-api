@@ -1,3 +1,5 @@
+using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -8,13 +10,13 @@ namespace PaintModelUtilities{
             MessageBox.Show(codColor);
 
             Dictionary<string, double[]> colors = new Dictionary<string, double[]>{
-                {"84351", new double[] {65025, 65025, 65025 } },//White powder
-                {"57459", new double[] {21675, 21675, 21675 } },//Grey powder
-                {"58628", new double[] {21675, 21675, 21675 } },//Grey liquid
-                {"98606", new double[] {65025, 65025, 0 } },//Yellow powder
-                {"2042", new double[] {18105, 26265, 65025 } },//Blue powder
-                {"39236", new double[] {21675, 21675, 21675 } },//Blue liquid
-                {"2071", new double[] {14025, 14025, 14025 } }//Black powder
+                {"84351", new double[] {65025, 65025, 65025 } },    //White powder
+                {"57459", new double[] {21675, 21675, 21675 } },    //Grey powder
+                {"58628", new double[] {21675, 21675, 21675 } },    //Grey liquid
+                {"98606", new double[] {65025, 65025, 0 } },        //Yellow powder
+                {"2042", new double[] {18105, 26265, 65025 } },     //Blue powder
+                {"39236", new double[] {21675, 21675, 21675 } },    //Blue liquid
+                {"2071", new double[] {14025, 14025, 14025 } }      //Black powder
             };
 
             if (codColor != ""){
@@ -42,5 +44,22 @@ namespace PaintModelUtilities{
             }
             return listFiltered;
         }
+
+        public static bool component2IsAssembly(Component2 item)
+        {
+            if (System.IO.Path.GetExtension(item.GetPathName()).ToUpper() == ".SLDASM")
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        /*public static bool isNotSupressed(ModelDoc2 component)
+        {
+            if (component.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
+            {
+                (AssemblyDoc)component.get
+            }
+        }*/
     }
 }
