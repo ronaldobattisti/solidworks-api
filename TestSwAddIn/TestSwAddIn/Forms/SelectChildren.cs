@@ -9,14 +9,19 @@ using TestSwAddIn.Utils;
 
 namespace TestSwAddIn.Forms
 {
+
+
     public partial class SelectChildren : Form
     {
-        private List<Component2> fstChildren;
+        private List<Component2> listChildrenComponents;
+        private List<Component2> listChildrenComponentsDisplayed;
 
-        public SelectChildren(List<Component2> fstChildren)
+        public SelectChildren(List<Component2> fstChildren, List<Component2> fstChildrenDisplayed)
         {
+
             OpenFile offs = new OpenFile();
-            this.fstChildren = fstChildren;
+            this.listChildrenComponents = fstChildren;
+            this.listChildrenComponentsDisplayed = fstChildrenDisplayed;
             InitializeComponent();
             foreach (Component2 item in fstChildren)
             {
@@ -44,7 +49,7 @@ namespace TestSwAddIn.Forms
             /*MessageBox.Show("fstChildren: " + string.Join(",", fstChildren.Select(c => c.Name2)) + "\nclsChildren.selectedItems: " + 
                 String.Join(",", selectedObjects.Select(c => c.ToString())));*/
 
-            foreach (Component2 obj in fstChildren)
+            foreach (Component2 obj in listChildrenComponents)
             {
                 foreach (string item in selectedObjects)
                 {
@@ -91,6 +96,23 @@ namespace TestSwAddIn.Forms
             for (int i = 0; i < clbChildren.Items.Count; i++)
             {
                 clbChildren.SetItemChecked(i, false);
+            }
+        }
+
+        private void btnSelectShown_Click(object sender, EventArgs e)
+        {
+            List<string> strItemName = new List<string>();
+            btnUnselectAll_Click(null, null);
+            foreach (Component2 item in listChildrenComponentsDisplayed) {
+                strItemName.Add(System.IO.Path.GetFileNameWithoutExtension(item.GetPathName()));
+            }
+            
+            for (int i = 0; i < clbChildren.Items.Count; i++)
+            {
+                if (strItemName.Contains(clbChildren.Items[i].ToString()))
+                {
+                    clbChildren.SetItemChecked(i, true);
+                }
             }
         }
     }

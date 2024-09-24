@@ -76,7 +76,6 @@
     <Compile Include="Forms\SelectChildren.Designer.cs">
       <DependentUpon>SelectChildren.cs</DependentUpon>
     </Compile>
-    <Compile Include="obj\Component.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
@@ -88,7 +87,6 @@
     <Compile Include="SampleSwAddIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ChangeItemCollor.cs" />
-    <Compile Include="Utils\ListComponentsModel.cs" />
     <Compile Include="Utils\ListComponents.cs" />
     <Compile Include="Utils\OpenFile.cs" />
     <Compile Include="Utils\Utils.cs" />

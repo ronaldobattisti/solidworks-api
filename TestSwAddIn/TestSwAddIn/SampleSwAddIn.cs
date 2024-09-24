@@ -47,8 +47,10 @@ namespace SampleAddIn
             {
                 case Commands_e.ChangeColor:
                     List<Component2> children = new List<Component2>();
+                    List<Component2> childrenShown = new List<Component2>();
                     children = lc.ListChildrenComponents();
-                    SelectChildren sc = new SelectChildren(children);
+                    childrenShown = lc.ListChildrenComponentsDisplayed();
+                    SelectChildren sc = new SelectChildren(children, childrenShown);
                     sc.ShowDialog();
                     break;
 

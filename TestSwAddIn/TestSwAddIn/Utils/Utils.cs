@@ -1,5 +1,4 @@
 using SolidWorks.Interop.sldworks;
-using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -53,13 +52,5 @@ namespace PaintModelUtilities{
             }
             else return false;
         }
-
-        /*public static bool isNotSupressed(ModelDoc2 component)
-        {
-            if (component.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
-            {
-                (AssemblyDoc)component.get
-            }
-        }*/
     }
 }

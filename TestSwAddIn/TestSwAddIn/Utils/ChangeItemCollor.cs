@@ -2,9 +2,6 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System;
-using SolidWorks.Interop.swconst;
-using System.Collections.Generic;
-using TestSwAddIn.Forms;
 
 namespace TestSwAddIn.Utils
 {

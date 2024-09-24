@@ -4,8 +4,6 @@ using System.Windows;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using PaintModelUtilities;
-using TestSwAddIn.Forms;
-using System.Linq;
 using System;
 
 namespace Utils
@@ -22,7 +20,6 @@ namespace Utils
 
             //Create a list of objects where all components will be stored
             List<Component2> objChildrenList = new List<Component2>();
-            List<Component2> objChildrenListNoDupes = new List<Component2>();
 
             swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
 
@@ -44,7 +41,7 @@ namespace Utils
                 {
                     foreach (Component2 component in components)
                     {
-                        //Check if subcomponent is not supressed
+                        //False: is supr && is shown: False || is supr && is hidden: True
                         if (component.GetSuppression2() != 0)
                         { 
                             objChildrenList.Add(component);
@@ -53,20 +50,6 @@ namespace Utils
                             {
                                 objChildrenList.AddRange(ListSubComponents(component));
                             }
-                        }
-                    }
-                    
-                    //Getting the filepath of each component with drawing
-                    List<string> filePaths = new List<string>();
-                    //List<string> filePathsNoDupes = new List<string>();
-
-                    foreach (Component2 item in objChildrenList)
-                    {                        
-                        //Create a List with all objects that contains drawing and without dupes
-                        if (filePaths.Contains(item.GetPathName()) == false)
-                        {
-                            filePaths.Add(item.GetPathName());
-                            objChildrenListNoDupes.Add(item);
                         }
                     }
                 }
@@ -79,15 +62,75 @@ namespace Utils
             {
                 MessageBox.Show("The active document is not an assembly.");
             }
-            //DocumentSpecification swDocSpecification = default(DocumentSpecification);
-            //swDocSpecification = (DocumentSpecification)swApp.GetOpenDocSpec("C:/Users/rbattisti/Desktop/Valvula retencao/360550.SLDPRT");
-            String message = "";
-            foreach (Component2 item in objChildrenList)
+            objChildrenList = removeDupes(objChildrenList);
+            return objChildrenList;
+        }
+
+        public List<Component2> ListChildrenComponentsDisplayed()
+        {
+            List<Component2> objChildrenListDisplayed = new List<Component2>();
+
+            swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
+
+            //Get the active document
+            ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
+            //objChildrenList.Add((component2)swApp.ActivateDoc);
+
+            // Check if the active document is an assembly
+            if (swModelDoc != null && swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
             {
-                message = message + "\n" + System.IO.Path.GetFileName(item.GetPathName());
+
+                AssemblyDoc swAssemblyDoc = (AssemblyDoc)swModelDoc;
+                ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
+
+                // Get the root components (top-level components)
+                object[] components = (object[])swAssemblyDoc.GetComponents(true);
+
+                if (components != null)
+                {
+                    foreach (Component2 component in components)
+                    {
+                        //True: is supr && is shown: True || is supr && is hidden: True
+                        if (component.GetSuppression2() != 0 && !component.IsHidden(false))
+                        {
+                            objChildrenListDisplayed.Add(component);
+                            // Recursively list all subcomponents
+                            if (Utilities.component2IsAssembly(component))
+                            {
+                                objChildrenListDisplayed.AddRange(ListSubComponentsDisplayed(component));
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No components found in the assembly.");
+                }
             }
-            //MessageBox.Show("The items in list are:\n" + message);
-            return objChildrenListNoDupes;
+            else
+            {
+                MessageBox.Show("The active document is not an assembly.");
+            }
+            //MessageBox.Show(string.Join(System.Environment.NewLine, objChildrenListDisplayed));
+            objChildrenListDisplayed = removeDupes(objChildrenListDisplayed);
+            return objChildrenListDisplayed;
+        }
+
+        private List<Component2> removeDupes(List<Component2> list)
+        {
+            //List<string> filePathsNoDupes = new List<string>();
+            List<Component2> listNoDupes = new List<Component2>();
+            List<string> filePaths = new List<string>();
+            foreach (Component2 item in list)
+            {
+                //Create a List with all objects that contains drawing and without dupes
+                if (!filePaths.Contains(item.GetPathName()))
+                {
+                    filePaths.Add(item.GetPathName());
+                    listNoDupes.Add(item);
+                }
+            }
+            return listNoDupes;
         }
 
         // Recursive method to list subcomponents
@@ -113,6 +156,32 @@ namespace Utils
                     } 
                 }
             }
+            return list;
+        }
+
+        private List<Component2> ListSubComponentsDisplayed(Component2 parentComponent)
+        {
+            List<Component2> list = new List<Component2>();
+
+            object[] subComponents = (object[])parentComponent.GetChildren();
+
+            if (subComponents != null)
+            {
+                foreach (Component2 subComponent in subComponents)
+                {
+                    //Check if subcomponent is not supressed
+                    if (subComponent.GetSuppression2() != 0 && (!subComponent.IsHidden(false)))
+                    {
+                        list.Add(subComponent);
+                        if (Utilities.component2IsAssembly(subComponent))
+                        {
+                            ListSubComponents(subComponent);
+                            list.AddRange(ListSubComponents(subComponent));
+                        }
+                    }
+                }
+            }
+            
             return list;
         }
         SldWorks swApp;
