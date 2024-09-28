@@ -51,7 +51,7 @@ namespace SampleAddIn
                     children = lc.ListChildrenComponents();
                     childrenShown = lc.ListChildrenComponentsDisplayed();
                     SelectChildren sc = new SelectChildren(children, childrenShown);
-                    sc.ShowDialog();
+                    sc.Show();
                     break;
 
                 /*case Commands_e.ChangeColor:

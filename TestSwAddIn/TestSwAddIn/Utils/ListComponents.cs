@@ -25,7 +25,6 @@ namespace Utils
 
             //Get the active document
             ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
-            //objChildrenList.Add((component2)swApp.ActivateDoc);
 
             // Check if the active document is an assembly
             if (swModelDoc != null && swModelDoc.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
@@ -46,7 +45,7 @@ namespace Utils
                         { 
                             objChildrenList.Add(component);
                             // Recursively list all subcomponents
-                            if (Utilities.component2IsAssembly(component))
+                            if (Utilities.Component2IsAssembly(component))
                             {
                                 objChildrenList.AddRange(ListSubComponents(component));
                             }
@@ -62,7 +61,7 @@ namespace Utils
             {
                 MessageBox.Show("The active document is not an assembly.");
             }
-            objChildrenList = removeDupes(objChildrenList);
+            objChildrenList = RemoveDupes(objChildrenList);
             return objChildrenList;
         }
 
@@ -95,7 +94,7 @@ namespace Utils
                         {
                             objChildrenListDisplayed.Add(component);
                             // Recursively list all subcomponents
-                            if (Utilities.component2IsAssembly(component))
+                            if (Utilities.Component2IsAssembly(component))
                             {
                                 objChildrenListDisplayed.AddRange(ListSubComponentsDisplayed(component));
                             }
@@ -112,11 +111,11 @@ namespace Utils
                 MessageBox.Show("The active document is not an assembly.");
             }
             //MessageBox.Show(string.Join(System.Environment.NewLine, objChildrenListDisplayed));
-            objChildrenListDisplayed = removeDupes(objChildrenListDisplayed);
+            objChildrenListDisplayed = RemoveDupes(objChildrenListDisplayed);
             return objChildrenListDisplayed;
         }
 
-        private List<Component2> removeDupes(List<Component2> list)
+        private List<Component2> RemoveDupes(List<Component2> list)
         {
             //List<string> filePathsNoDupes = new List<string>();
             List<Component2> listNoDupes = new List<Component2>();
@@ -148,7 +147,7 @@ namespace Utils
                     if (subComponent.GetSuppression2() != 0)
                     {
                         list.Add(subComponent);
-                        if (Utilities.component2IsAssembly(subComponent))
+                        if (Utilities.Component2IsAssembly(subComponent))
                         {
                             ListSubComponents(subComponent);
                             list.AddRange(ListSubComponents(subComponent));
@@ -173,7 +172,7 @@ namespace Utils
                     if (subComponent.GetSuppression2() != 0 && (!subComponent.IsHidden(false)))
                     {
                         list.Add(subComponent);
-                        if (Utilities.component2IsAssembly(subComponent))
+                        if (Utilities.Component2IsAssembly(subComponent))
                         {
                             ListSubComponents(subComponent);
                             list.AddRange(ListSubComponents(subComponent));

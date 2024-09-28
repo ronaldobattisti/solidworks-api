@@ -34,6 +34,7 @@
             this.btnSelectShown = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.clbChildren = new System.Windows.Forms.CheckedListBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,11 +96,22 @@
             this.clbChildren.Size = new System.Drawing.Size(340, 422);
             this.clbChildren.TabIndex = 1;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(250, 469);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(102, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Change Color Item";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // SelectChildren
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(366, 482);
+            this.ClientSize = new System.Drawing.Size(366, 525);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnSelectShown);
             this.Controls.Add(this.btnUnselectAll);
@@ -119,5 +131,6 @@
         private System.Windows.Forms.Button btnSelectShown;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckedListBox clbChildren;
+        private System.Windows.Forms.Button button1;
     }
 }

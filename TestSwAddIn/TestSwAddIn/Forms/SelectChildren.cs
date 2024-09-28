@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using TestSwAddIn.Utils;
+using Utils;
 
 namespace TestSwAddIn.Forms
 {
-
-
     public partial class SelectChildren : Form
     {
         private List<Component2> listChildrenComponents;
@@ -51,9 +51,10 @@ namespace TestSwAddIn.Forms
 
             foreach (Component2 obj in listChildrenComponents)
             {
+                string objName = System.IO.Path.GetFileNameWithoutExtension(obj.GetPathName());
                 foreach (string item in selectedObjects)
                 {
-                    if (obj.Name2 == item)
+                    if (objName == item)
                     {
                         offs.OpenFromObject(obj);
                         SldWorks swApp = Activator.CreateInstance(Type.GetTypeFromProgID("SldWorks.Application")) as SldWorks;
@@ -101,6 +102,9 @@ namespace TestSwAddIn.Forms
 
         private void btnSelectShown_Click(object sender, EventArgs e)
         {
+            ListComponents lc = new ListComponents();
+            listChildrenComponentsDisplayed = lc.ListChildrenComponentsDisplayed();
+
             List<string> strItemName = new List<string>();
             btnUnselectAll_Click(null, null);
             foreach (Component2 item in listChildrenComponentsDisplayed) {
@@ -114,6 +118,12 @@ namespace TestSwAddIn.Forms
                     clbChildren.SetItemChecked(i, true);
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ChangeItemCollor cic = new ChangeItemCollor();
+            cic.ChangeCollor();
         }
     }
 }

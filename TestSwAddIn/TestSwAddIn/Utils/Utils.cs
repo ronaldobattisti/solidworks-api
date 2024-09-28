@@ -1,12 +1,14 @@
 using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
+using System;
 using System.Windows;
 
 namespace PaintModelUtilities{
     public static class Utilities{
-        public static double[] getColor(string codColor, double[] materialProps){
+        public static double[] GetColor(string codColor, double[] materialProps){
 
-            MessageBox.Show(codColor);
+            //MessageBox.Show(codColor);
+            Console.WriteLine(codColor);
 
             Dictionary<string, double[]> colors = new Dictionary<string, double[]>{
                 {"84351", new double[] {65025, 65025, 65025 } },    //White powder
@@ -25,13 +27,13 @@ namespace PaintModelUtilities{
                 return materialProps;
             }
 
-            //MessageBox.Show("Color geted: " + codColor + " Color painted: " + colors[codColor]);
+            MessageBox.Show("Color geted: " + codColor + " Color painted: " + colors[codColor]);
 
             //return the entire property changing just the collor
             return materialProps;
         }
 
-        public static List<string> removeDuplicated(List<string> list)
+        public static List<string> RemoveDuplicated(List<string> list)
         {
             List<string> listFiltered = new List<string>();
             foreach (string item in list)
@@ -44,7 +46,7 @@ namespace PaintModelUtilities{
             return listFiltered;
         }
 
-        public static bool component2IsAssembly(Component2 item)
+        public static bool Component2IsAssembly(Component2 item)
         {
             if (System.IO.Path.GetExtension(item.GetPathName()).ToUpper() == ".SLDASM")
             {

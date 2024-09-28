@@ -18,7 +18,6 @@ namespace TestSwAddIn.Utils
 
             swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
             ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
-            ModelDoc2 modelDoc = null;
 
             //Get the file extension to throw as parameter when opening with OpenDoc6
             fileExtension = item.GetPathName().Split('.')[item.GetPathName().Split('.').Length - 1].ToUpper();
