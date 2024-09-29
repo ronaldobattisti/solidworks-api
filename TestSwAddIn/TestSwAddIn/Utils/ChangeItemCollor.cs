@@ -33,9 +33,9 @@ namespace TestSwAddIn.Utils
             CustomPropertyManager cusPropMgr = swModel.Extension.CustomPropertyManager[""];
             String paintCode = "";
             string properties = "";
-            string propertyValue;
-            string propertyResolvedValue;
-            bool wasResolved;
+            string propertyValue = "";
+            string propertyResolvedValue = "";
+            bool wasResolved = false;
             string[] propertyNames = (string[])cusPropMgr.GetNames();
             if (propertyNames != null)
             {
@@ -60,7 +60,7 @@ namespace TestSwAddIn.Utils
             }
 
             //Avoid solidworks crashing if none parameter is sent
-            if (paintCode != "" && )
+            if (paintCode != "")
             {
                 double[] materialProps = (double[])swModel.MaterialPropertyValues; //get the visual properties of the actual part in a variable
                 materialProps = PaintModelUtilities.Utilities.GetColor(paintCode, materialProps); //Send the variable with the cod of the color to the function
@@ -71,7 +71,7 @@ namespace TestSwAddIn.Utils
         
         public void ApplyColorToAssembly(ModelDoc2 swModel)
         {
-            /*String paintCode = "";
+            String paintCode = "";
 
             // Access the custom properties of the assembly
             CustomPropertyManager cusPropMgr = swModel.Extension.CustomPropertyManager[""];
@@ -100,7 +100,7 @@ namespace TestSwAddIn.Utils
             if (!string.IsNullOrEmpty(paintCode))
             {
                 // Apply appearance to the top-level assembly
-                double[] rgbColor = PaintModelUtilities.Utilities.GetRGBColorFromCode(paintCode); // Get RGB values from paint code
+                double[] rgbColor = new double[] { 255, 255, 255 };//PaintModelUtilities.Utilities.GetRGBColorFromCode(paintCode); // Get RGB values from paint code
                 ApplyAssemblyColor(swModel, rgbColor);
             }
 
@@ -110,7 +110,7 @@ namespace TestSwAddIn.Utils
         private void ApplyAssemblyColor(ModelDoc2 swModel, double[] rgbColor)
         {
             // Ensure the color is a valid RGB array
-            if (rgbColor == null || rgbColor.Length != 3)
+            /*if (rgbColor == null || rgbColor.Length != 3)
             {
                 MessageBox.Show("Invalid color.");
                 return;

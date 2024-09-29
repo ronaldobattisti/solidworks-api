@@ -32,12 +32,7 @@ namespace TestSwAddIn.Forms
             clbChildren.CheckOnClick = true;
         }
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnSavePdf_Click(object sender, EventArgs e)
+        private void BtnChangeColor_Click(object sender, EventArgs e)
         {
             OpenFile offs = new OpenFile();
             List<string> selectedObjects = clbChildren.CheckedItems.OfType<string>().ToList();
@@ -84,7 +79,7 @@ namespace TestSwAddIn.Forms
             }
         }
 
-        private void btnSelectAll_Click(object sender, EventArgs e)
+        private void BtnSelectAll_Click(object sender, EventArgs e)
         {
             for(int i = 0; i < clbChildren.Items.Count; i++)
             {
@@ -92,7 +87,7 @@ namespace TestSwAddIn.Forms
             }
         }
 
-        private void btnUnselectAll_Click(object sender, EventArgs e)
+        private void BtnUnselectAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < clbChildren.Items.Count; i++)
             {
@@ -100,13 +95,13 @@ namespace TestSwAddIn.Forms
             }
         }
 
-        private void btnSelectShown_Click(object sender, EventArgs e)
+        private void BtnSelectShown_Click(object sender, EventArgs e)
         {
             ListComponents lc = new ListComponents();
             listChildrenComponentsDisplayed = lc.ListChildrenComponentsDisplayed();
 
             List<string> strItemName = new List<string>();
-            btnUnselectAll_Click(null, null);
+            BtnUnselectAll_Click(null, null);
             foreach (Component2 item in listChildrenComponentsDisplayed) {
                 strItemName.Add(System.IO.Path.GetFileNameWithoutExtension(item.GetPathName()));
             }
@@ -120,10 +115,56 @@ namespace TestSwAddIn.Forms
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BtnChangeColorItem_Click(object sender, EventArgs e)
         {
             ChangeItemCollor cic = new ChangeItemCollor();
             cic.ChangeCollor();
+        }
+
+        private void BtnSavePdf_Click(object sender, EventArgs e)
+        {
+            OpenFile offs = new OpenFile();
+            List<string> selectedObjects = clbChildren.CheckedItems.OfType<string>().ToList();
+
+            int lErrors = 0;
+            int lWarnings = 0;
+            List<string> filesWoDrawings = new List<string>();
+            List<string> errors = new List<string>();
+
+            foreach (Component2 obj in listChildrenComponents)
+            {
+                string objName = System.IO.Path.GetFileNameWithoutExtension(obj.GetPathName());
+                string drawingPath = System.IO.Path.ChangeExtension(obj.GetPathName(), "SLDDRW");
+                foreach (string item in selectedObjects)
+                {
+                    if (objName == item)
+                    {
+                        if (System.IO.File.Exists(obj.GetPathName()))
+                        {
+                            offs.OpenFromObject(obj);
+                            SldWorks swApp = Activator.CreateInstance(Type.GetTypeFromProgID("SldWorks.Application")) as SldWorks;
+                            ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
+
+
+
+                            swModel.Save3((int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref lErrors, ref lWarnings);
+                            if (lErrors != 0)
+                            {
+                                errors.Add(obj.Name2);
+                            }
+                            offs.CloseFileObject(obj);
+                        } else
+                        {
+                            filesWoDrawings.Add(objName);
+                        }
+                    }
+                }
+            }
+
+            if (errors.Count > 0)
+            {
+                MessageBox.Show("The following items couldn't be saved\n:" + string.Join("\n", errors.Select(error => $"• {error}")));
+            }
         }
     }
 }

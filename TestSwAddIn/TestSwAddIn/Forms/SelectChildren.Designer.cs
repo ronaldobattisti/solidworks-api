@@ -28,25 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnSavePdf = new System.Windows.Forms.Button();
+            this.btnChangeColor = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnUnselectAll = new System.Windows.Forms.Button();
             this.btnSelectShown = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.clbChildren = new System.Windows.Forms.CheckedListBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnChangeColorItem = new System.Windows.Forms.Button();
+            this.btnSavePdf = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnSavePdf
+            // btnChangeColor
             // 
-            this.btnSavePdf.Location = new System.Drawing.Point(267, 440);
-            this.btnSavePdf.Name = "btnSavePdf";
-            this.btnSavePdf.Size = new System.Drawing.Size(85, 23);
-            this.btnSavePdf.TabIndex = 4;
-            this.btnSavePdf.Text = "Change Color";
-            this.btnSavePdf.UseVisualStyleBackColor = true;
-            this.btnSavePdf.Click += new System.EventHandler(this.btnSavePdf_Click);
+            this.btnChangeColor.Location = new System.Drawing.Point(12, 469);
+            this.btnChangeColor.Name = "btnChangeColor";
+            this.btnChangeColor.Size = new System.Drawing.Size(85, 23);
+            this.btnChangeColor.TabIndex = 4;
+            this.btnChangeColor.Text = "Change Color";
+            this.btnChangeColor.UseVisualStyleBackColor = true;
+            this.btnChangeColor.Click += new System.EventHandler(this.BtnChangeColor_Click);
             // 
             // btnSelectAll
             // 
@@ -56,7 +57,7 @@
             this.btnSelectAll.TabIndex = 1;
             this.btnSelectAll.Text = "Select All";
             this.btnSelectAll.UseVisualStyleBackColor = true;
-            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            this.btnSelectAll.Click += new System.EventHandler(this.BtnSelectAll_Click);
             // 
             // btnUnselectAll
             // 
@@ -66,7 +67,7 @@
             this.btnUnselectAll.TabIndex = 2;
             this.btnUnselectAll.Text = "Unselect All";
             this.btnUnselectAll.UseVisualStyleBackColor = true;
-            this.btnUnselectAll.Click += new System.EventHandler(this.btnUnselectAll_Click);
+            this.btnUnselectAll.Click += new System.EventHandler(this.BtnUnselectAll_Click);
             // 
             // btnSelectShown
             // 
@@ -76,7 +77,7 @@
             this.btnSelectShown.TabIndex = 3;
             this.btnSelectShown.Text = "Select Shown";
             this.btnSelectShown.UseVisualStyleBackColor = true;
-            this.btnSelectShown.Click += new System.EventHandler(this.btnSelectShown_Click);
+            this.btnSelectShown.Click += new System.EventHandler(this.BtnSelectShown_Click);
             // 
             // panel1
             // 
@@ -96,27 +97,38 @@
             this.clbChildren.Size = new System.Drawing.Size(340, 422);
             this.clbChildren.TabIndex = 1;
             // 
-            // button1
+            // btnChangeColorItem
             // 
-            this.button1.Location = new System.Drawing.Point(250, 469);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(102, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Change Color Item";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnChangeColorItem.Location = new System.Drawing.Point(103, 469);
+            this.btnChangeColorItem.Name = "btnChangeColorItem";
+            this.btnChangeColorItem.Size = new System.Drawing.Size(102, 23);
+            this.btnChangeColorItem.TabIndex = 5;
+            this.btnChangeColorItem.Text = "Change Color Item";
+            this.btnChangeColorItem.UseVisualStyleBackColor = true;
+            this.btnChangeColorItem.Click += new System.EventHandler(this.BtnChangeColorItem_Click);
+            // 
+            // btnSavePdf
+            // 
+            this.btnSavePdf.Location = new System.Drawing.Point(211, 469);
+            this.btnSavePdf.Name = "btnSavePdf";
+            this.btnSavePdf.Size = new System.Drawing.Size(65, 23);
+            this.btnSavePdf.TabIndex = 6;
+            this.btnSavePdf.Text = "Save PDF";
+            this.btnSavePdf.UseVisualStyleBackColor = true;
+            this.btnSavePdf.Click += new System.EventHandler(this.BtnSavePdf_Click);
             // 
             // SelectChildren
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(366, 525);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnSavePdf);
+            this.Controls.Add(this.btnChangeColorItem);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnSelectShown);
             this.Controls.Add(this.btnUnselectAll);
             this.Controls.Add(this.btnSelectAll);
-            this.Controls.Add(this.btnSavePdf);
+            this.Controls.Add(this.btnChangeColor);
             this.Name = "SelectChildren";
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
@@ -125,12 +137,13 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button btnSavePdf;
+        private System.Windows.Forms.Button btnChangeColor;
         private System.Windows.Forms.Button btnSelectAll;
         private System.Windows.Forms.Button btnUnselectAll;
         private System.Windows.Forms.Button btnSelectShown;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckedListBox clbChildren;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnChangeColorItem;
+        private System.Windows.Forms.Button btnSavePdf;
     }
 }
