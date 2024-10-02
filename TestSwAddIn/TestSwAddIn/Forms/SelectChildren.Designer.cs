@@ -36,6 +36,7 @@
             this.clbChildren = new System.Windows.Forms.CheckedListBox();
             this.btnChangeColorItem = new System.Windows.Forms.Button();
             this.btnSavePdf = new System.Windows.Forms.Button();
+            this.BtnTestAction = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -117,11 +118,22 @@
             this.btnSavePdf.UseVisualStyleBackColor = true;
             this.btnSavePdf.Click += new System.EventHandler(this.BtnSavePdf_Click);
             // 
+            // BtnTestAction
+            // 
+            this.BtnTestAction.Location = new System.Drawing.Point(12, 498);
+            this.BtnTestAction.Name = "BtnTestAction";
+            this.BtnTestAction.Size = new System.Drawing.Size(85, 23);
+            this.BtnTestAction.TabIndex = 7;
+            this.BtnTestAction.Text = "Action Test";
+            this.BtnTestAction.UseVisualStyleBackColor = true;
+            this.BtnTestAction.Click += new System.EventHandler(this.BtnTestAction_Click);
+            // 
             // SelectChildren
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(366, 525);
+            this.Controls.Add(this.BtnTestAction);
             this.Controls.Add(this.btnSavePdf);
             this.Controls.Add(this.btnChangeColorItem);
             this.Controls.Add(this.panel1);
@@ -145,5 +157,6 @@
         private System.Windows.Forms.CheckedListBox clbChildren;
         private System.Windows.Forms.Button btnChangeColorItem;
         private System.Windows.Forms.Button btnSavePdf;
+        private System.Windows.Forms.Button BtnTestAction;
     }
 }

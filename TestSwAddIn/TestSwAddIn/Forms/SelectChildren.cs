@@ -145,8 +145,6 @@ namespace TestSwAddIn.Forms
                             SldWorks swApp = Activator.CreateInstance(Type.GetTypeFromProgID("SldWorks.Application")) as SldWorks;
                             ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
 
-
-
                             swModel.Save3((int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref lErrors, ref lWarnings);
                             if (lErrors != 0)
                             {
@@ -164,6 +162,43 @@ namespace TestSwAddIn.Forms
             if (errors.Count > 0)
             {
                 MessageBox.Show("The following items couldn't be saved\n:" + string.Join("\n", errors.Select(error => $"• {error}")));
+            }
+        }
+
+        //Button used to make some tests
+        private void BtnTestAction_Click(object sender, EventArgs e)
+        {
+            OpenFile offs = new OpenFile();
+            List<string> selectedObjects = clbChildren.CheckedItems.OfType<string>().ToList();
+
+            int lErrors = 0;
+            int lWarnings = 0;
+            List<string> filesWoDrawings = new List<string>();
+            List<string> errors = new List<string>();
+
+            foreach (Component2 obj in listChildrenComponents)
+            {
+                string objName = System.IO.Path.GetFileNameWithoutExtension(obj.GetPathName());
+                string drawingPath = System.IO.Path.ChangeExtension(obj.GetPathName(), "SLDDRW");
+                foreach (string item in selectedObjects)
+                {
+                    if (objName == item)
+                    {
+                        if (System.IO.File.Exists(obj.GetPathName()))
+                        {
+                            offs.OpenFromObject(obj);
+                            SldWorks swApp = Activator.CreateInstance(Type.GetTypeFromProgID("SldWorks.Application")) as SldWorks;
+                            ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
+
+                            swModel.Save3((int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref lErrors, ref lWarnings);
+                            if (lErrors != 0)
+                            {
+                                errors.Add(obj.Name2);
+                            }
+                            offs.CloseFileObject(obj);
+                        }
+                    }
+                }
             }
         }
     }
