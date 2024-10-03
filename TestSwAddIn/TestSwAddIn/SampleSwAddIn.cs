@@ -67,13 +67,25 @@ namespace SampleAddIn
                         Console.WriteLine("No assembly document is open.");
                         return;
                     }*/
+                    IModelDocExtension modelExtension = swModel.Extension;
+                    Configuration activeConf = (Configuration)swModel.GetActiveConfiguration();
+                    string activeConfName = activeConf.Name;
+                    double[] actualValue = (double[])modelExtension.GetMaterialPropertyValues((int)swInConfigurationOpts_e.swAllConfiguration, activeConfName);
 
                     // RGB color for red (values between 0.0 and 1.0)
-                    double[] redColor = { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }; // Red color (R, G, B)
+                    actualValue[0] = 1;//red
+                    actualValue[1] = 0;//green
+                    actualValue[2] = 0;//blue
+                    actualValue[3] = 0.5; // Ambient
+                    actualValue[4] = 0.5; // Diffuse
+                    actualValue[5] = 0.5; // Specular
+                    actualValue[6] = 0.5; // Shininess
+                    actualValue[7] = 0.0; // Transparency
+                    actualValue[8] = 0.0; // Emission
+                    //double[] newValue = actualValue[];
 
                     // Apply color to the top-level assembly
-                    IModelDocExtension modelExtension = swModel.Extension;
-                    modelExtension.SetMaterialPropertyValues(redColor, (int)swInConfigurationOpts_e.swAllConfiguration, null);
+                    modelExtension.SetMaterialPropertyValues(actualValue, (int)swInConfigurationOpts_e.swAllConfiguration, null);
                     /*
                     if (status)
                     {
