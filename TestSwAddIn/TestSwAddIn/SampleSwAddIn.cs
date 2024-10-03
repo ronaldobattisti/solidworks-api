@@ -10,12 +10,13 @@ using Utils;
 using TestSwAddIn.Utils;
 using TestSwAddIn.Forms;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 
 namespace SampleAddIn
 {
     [ComVisible(true)]
     [Guid("1EE37F60-45F7-4FFA-93E2-5ACCC371530F")]
-    [Title("Sample AddIn")]
+    [Title("RAutomation")]
 
     public class TestSampleAddIn : SwAddInEx
     {
@@ -26,10 +27,11 @@ namespace SampleAddIn
             [Description("Change color for every selected item")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
             ChangeColor,
-            /*[Title("Change color!")]
-            [Description("Change color")]
+            
+            [Title("Test!")]
+            [Description("Test")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
-            ChangeColor*/
+            Test
         }
 
         public override void OnConnect()
@@ -41,7 +43,7 @@ namespace SampleAddIn
         private void CmGrp_CommandClick(Commands_e spec)
         {
             ListComponents lc = new ListComponents();
-            ChangeItemCollor cit = new ChangeItemCollor();
+            ChangeItemColor cit = new ChangeItemColor();
 
             switch (spec)
             {
@@ -54,10 +56,36 @@ namespace SampleAddIn
                     sc.Show();
                     break;
 
-                /*case Commands_e.ChangeColor:
-                    cit.ChangeCollor();
-                    break;*/
-            }
+                case Commands_e.Test:
+                    // Connect to the running SolidWorks instance
+                    SldWorks swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
+                    ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
+
+                    // Check if an assembly is active
+                    /*if (swModel == null || swModel.GetType() != (int)swDocumentTypes_e.swDocASSEMBLY)
+                    {
+                        Console.WriteLine("No assembly document is open.");
+                        return;
+                    }*/
+
+                    // RGB color for red (values between 0.0 and 1.0)
+                    double[] redColor = { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }; // Red color (R, G, B)
+
+                    // Apply color to the top-level assembly
+                    IModelDocExtension modelExtension = swModel.Extension;
+                    modelExtension.SetMaterialPropertyValues(redColor, (int)swInConfigurationOpts_e.swAllConfiguration, null);
+                    /*
+                    if (status)
+                    {
+                        Console.WriteLine("Top-level assembly has been set to red.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to set color for the top-level assembly.");
+                    }*/
+                    break;
+            }   
         }
+        SldWorks swApp;
     }
 }

@@ -36,7 +36,7 @@ namespace TestSwAddIn.Forms
         {
             OpenFile offs = new OpenFile();
             List<string> selectedObjects = clbChildren.CheckedItems.OfType<string>().ToList();
-            ChangeItemCollor cic = new ChangeItemCollor();
+            ChangeItemColor cic = new ChangeItemColor();
             int lErrors = 0;
             int lWarnings = 0;
             List<string> errors = new List<string>();
@@ -54,7 +54,7 @@ namespace TestSwAddIn.Forms
                         offs.OpenFromObject(obj);
                         SldWorks swApp = Activator.CreateInstance(Type.GetTypeFromProgID("SldWorks.Application")) as SldWorks;
                         ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
-                        cic.ChangeCollor();
+                        cic.ChangeColor();
                         swModel.Save3((int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref lErrors, ref lWarnings);
                         if(lErrors != 0)
                         {
@@ -117,8 +117,8 @@ namespace TestSwAddIn.Forms
 
         private void BtnChangeColorItem_Click(object sender, EventArgs e)
         {
-            ChangeItemCollor cic = new ChangeItemCollor();
-            cic.ChangeCollor();
+            ChangeItemColor cic = new ChangeItemColor();
+            cic.ChangeColor();
         }
 
         private void BtnSavePdf_Click(object sender, EventArgs e)
@@ -168,38 +168,69 @@ namespace TestSwAddIn.Forms
         //Button used to make some tests
         private void BtnTestAction_Click(object sender, EventArgs e)
         {
-            OpenFile offs = new OpenFile();
-            List<string> selectedObjects = clbChildren.CheckedItems.OfType<string>().ToList();
+            swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
+            ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
 
-            int lErrors = 0;
-            int lWarnings = 0;
-            List<string> filesWoDrawings = new List<string>();
-            List<string> errors = new List<string>();
+            AssemblyDoc assemblyDoc = (AssemblyDoc)swModel;
 
-            foreach (Component2 obj in listChildrenComponents)
+            string modelName = System.IO.Path.GetFileNameWithoutExtension(swModel.GetPathName()).ToUpper();
+            MessageBox.Show("Before getComponent");
+            IComponent2 rootComponent = assemblyDoc.GetComponentByName(modelName);
+
+            //Component2[] components = (Component2[])assemblyDoc.GetComponents(true);
+            object[] components = (object[])assemblyDoc.GetComponents(false);
+
+
+            if (components != null)
             {
-                string objName = System.IO.Path.GetFileNameWithoutExtension(obj.GetPathName());
-                string drawingPath = System.IO.Path.ChangeExtension(obj.GetPathName(), "SLDDRW");
-                foreach (string item in selectedObjects)
+                string msg = "";
+                foreach (Component2 item in components)
                 {
-                    if (objName == item)
-                    {
-                        if (System.IO.File.Exists(obj.GetPathName()))
-                        {
-                            offs.OpenFromObject(obj);
-                            SldWorks swApp = Activator.CreateInstance(Type.GetTypeFromProgID("SldWorks.Application")) as SldWorks;
-                            ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
-
-                            swModel.Save3((int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref lErrors, ref lWarnings);
-                            if (lErrors != 0)
-                            {
-                                errors.Add(obj.Name2);
-                            }
-                            offs.CloseFileObject(obj);
-                        }
-                    }
+                    msg += "\nItem: " + item.Name2;
                 }
+                MessageBox.Show(msg);
             }
+            else
+            {
+                MessageBox.Show("No components found in the assembly.");
+            }
+
+            //MessageBox.Show("Root component: " + rootComponent.Name2);
+
+            double[] color = new double[9];
+            color[0] = 1.0; // Red
+            color[1] = 0.0; // Green
+            color[2] = 0.0; // Blue
+            color[3] = 0.5; // Ambient
+            color[4] = 0.5; // Diffuse
+            color[5] = 0.5; // Specular
+            color[6] = 0.5; // Shininess
+            color[7] = 0.0; // Transparency
+            color[8] = 0.0; // Emission
+
+
+            //rootComponent.SetMaterialPropertyValues2(color, (int)swInConfigurationOpts_e.swThisConfiguration, Type.Missing);
+
+
+            /*MessageBox.Show("Before foreach");
+
+            foreach (Component2 item in listChildrenComponents)
+            {
+                string itemName = System.IO.Path.GetFileNameWithoutExtension(item.GetPathName()).ToUpper();
+                string modelName = System.IO.Path.GetFileNameWithoutExtension(swModel.GetPathName()).ToUpper();
+                MessageBox.Show("Item: " + itemName + " | Model: " + modelName);
+                if (itemName == modelName)
+                {
+                    object confName = Type.Missing;
+                    int confOpt = (int)swInConfigurationOpts_e.swAllConfiguration;
+                    double[] materialProps = (double[])item.GetMaterialPropertyValues2(confOpt, confName);
+                    MessageBox.Show("Colors: " + materialProps[0] + materialProps[1] + materialProps[2]);
+                }
+            }*/
+
+
+
         }
+        SldWorks swApp;
     }
 }

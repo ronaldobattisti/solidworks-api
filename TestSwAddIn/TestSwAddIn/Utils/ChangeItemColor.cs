@@ -6,10 +6,10 @@ using SolidWorks.Interop.swconst;
 
 namespace TestSwAddIn.Utils
 {
-    class ChangeItemCollor
+    class ChangeItemColor
     {
 
-        public void ChangeCollor()
+        public void ChangeColor()
         {
             SldWorks swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
             ModelDoc2 swModel = ((ModelDoc2)(swApp.ActiveDoc));
