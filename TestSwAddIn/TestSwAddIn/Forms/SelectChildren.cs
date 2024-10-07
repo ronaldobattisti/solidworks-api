@@ -46,29 +46,40 @@ namespace TestSwAddIn.Forms
 
             foreach (Component2 obj in listChildrenComponents)
             {
-                string objName = System.IO.Path.GetFileNameWithoutExtension(obj.GetPathName());
                 foreach (string item in selectedObjects)
                 {
+                    ModelDoc2 swModelDoc = (ModelDoc2)obj.GetModelDoc2();
+                    string objName = System.IO.Path.GetFileNameWithoutExtension(swModelDoc.GetPathName());
                     if (objName == item)
                     {
-                        offs.OpenFromObject(obj);
-                        SldWorks swApp = Activator.CreateInstance(Type.GetTypeFromProgID("SldWorks.Application")) as SldWorks;
-                        ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
-                        cic.ChangeColor();
-                        swModel.Save3((int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref lErrors, ref lWarnings);
-                        if(lErrors != 0)
-                        {
-                            errors.Add(obj.Name2);
-                        }
-                        offs.CloseFileObject(obj);
-                        /*int saveStatus = swModel.SaveAs3(filePath, (int)swSaveAsVersion_e.swSaveAsCurrentVersion, (int)swSaveAsOptions_e.swSaveAsOptions_Silent);
+                        IModelDocExtension modelExtension = swModelDoc.Extension;
+                        Configuration activeConf = (Configuration)swModelDoc.GetActiveConfiguration();
+                        string activeConfName = activeConf.Name;
+                        double[] actualValue = (double[])modelExtension.GetMaterialPropertyValues((int)swInConfigurationOpts_e.swAllConfiguration, activeConfName);
 
-                        // Check if the save was successful
-                        if (saveStatus == (int)swFileSaveError_e.swGenericSaveError)
+                        double[] rgbColors = cic.GetRgbColor(swModelDoc);
+                        // RGB color for red (values between 0.0 and 1.0)
+                        if (rgbColors.Length == 3 && rgbColors[0] != -1)
                         {
-                            Console.WriteLine("Failed to save the file.");
-                        }*/
-                        //MessageBox.Show("The item " + obj.Name2 + " was opened and closed");
+                            actualValue[0] = rgbColors[0];//red
+                            actualValue[1] = rgbColors[1];//green
+                            actualValue[2] = rgbColors[2];//blue
+                            actualValue[3] = 0.8; // Ambient
+                            actualValue[4] = 0.5; // Diffuse
+                            actualValue[5] = 0.6; // Specular
+                            actualValue[6] = 0.9; // Shininess
+                            actualValue[7] = 0.0; // Transparency
+                            actualValue[8] = 0.0; // Emission
+
+                            // Apply color to the top-level assembly
+                            modelExtension.SetMaterialPropertyValues(actualValue, (int)swInConfigurationOpts_e.swAllConfiguration, null);
+                            swModelDoc.EditRebuild3();
+
+                            int saveOption = (int)swSaveAsOptions_e.swSaveAsOptions_Silent;
+
+                            swModelDoc.Save3(saveOption, lErrors, lWarnings);
+                        }
+                        
                     }
                 }
             }
@@ -118,7 +129,7 @@ namespace TestSwAddIn.Forms
         private void BtnChangeColorItem_Click(object sender, EventArgs e)
         {
             ChangeItemColor cic = new ChangeItemColor();
-            cic.ChangeColor();
+            //cic.ChangeColor();
         }
 
         private void BtnSavePdf_Click(object sender, EventArgs e)
@@ -141,7 +152,8 @@ namespace TestSwAddIn.Forms
                     {
                         if (System.IO.File.Exists(obj.GetPathName()))
                         {
-                            offs.OpenFromObject(obj);
+                            ModelDoc2 swModelDoc = (ModelDoc2)obj;
+                            offs.OpenFromObject(swModelDoc);
                             SldWorks swApp = Activator.CreateInstance(Type.GetTypeFromProgID("SldWorks.Application")) as SldWorks;
                             ModelDoc2 swModel = swApp.ActiveDoc as ModelDoc2;
 

@@ -28,8 +28,8 @@ namespace SampleAddIn
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
             ChangeColor,
             
-            [Title("Test!")]
-            [Description("Test")]
+            [Title("Create 2D")]
+            [Description("Create 2D")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
             Test
         }
@@ -57,44 +57,6 @@ namespace SampleAddIn
                     break;
 
                 case Commands_e.Test:
-                    // Connect to the running SolidWorks instance
-                    SldWorks swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
-                    ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
-
-                    // Check if an assembly is active
-                    /*if (swModel == null || swModel.GetType() != (int)swDocumentTypes_e.swDocASSEMBLY)
-                    {
-                        Console.WriteLine("No assembly document is open.");
-                        return;
-                    }*/
-                    IModelDocExtension modelExtension = swModel.Extension;
-                    Configuration activeConf = (Configuration)swModel.GetActiveConfiguration();
-                    string activeConfName = activeConf.Name;
-                    double[] actualValue = (double[])modelExtension.GetMaterialPropertyValues((int)swInConfigurationOpts_e.swAllConfiguration, activeConfName);
-
-                    // RGB color for red (values between 0.0 and 1.0)
-                    actualValue[0] = 1;//red
-                    actualValue[1] = 0;//green
-                    actualValue[2] = 0;//blue
-                    actualValue[3] = 0.5; // Ambient
-                    actualValue[4] = 0.5; // Diffuse
-                    actualValue[5] = 0.5; // Specular
-                    actualValue[6] = 0.5; // Shininess
-                    actualValue[7] = 0.0; // Transparency
-                    actualValue[8] = 0.0; // Emission
-                    //double[] newValue = actualValue[];
-
-                    // Apply color to the top-level assembly
-                    modelExtension.SetMaterialPropertyValues(actualValue, (int)swInConfigurationOpts_e.swAllConfiguration, null);
-                    /*
-                    if (status)
-                    {
-                        Console.WriteLine("Top-level assembly has been set to red.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Failed to set color for the top-level assembly.");
-                    }*/
                     break;
             }   
         }
