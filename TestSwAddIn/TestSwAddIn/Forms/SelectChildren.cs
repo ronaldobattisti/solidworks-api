@@ -32,56 +32,72 @@ namespace TestSwAddIn.Forms
             clbChildren.CheckOnClick = true;
         }
 
+        #region btnChangeColor
         private void BtnChangeColor_Click(object sender, EventArgs e)
         {
             OpenFile offs = new OpenFile();
             List<string> selectedObjects = clbChildren.CheckedItems.OfType<string>().ToList();
             ChangeItemColor cic = new ChangeItemColor();
+            int supressionError = 0;
             int lErrors = 0;
             int lWarnings = 0;
             List<string> errors = new List<string>();
 
-            /*MessageBox.Show("fstChildren: " + string.Join(",", fstChildren.Select(c => c.Name2)) + "\nclsChildren.selectedItems: " + 
-                String.Join(",", selectedObjects.Select(c => c.ToString())));*/
-
             foreach (Component2 obj in listChildrenComponents)
             {
-                foreach (string item in selectedObjects)
+                string objName = System.IO.Path.GetFileNameWithoutExtension(obj.GetPathName());
+                //Test if the component 2 is lightweight, if it is, set as resolved
+                //It need to be setted before casting Component2 to ModelDoc2 otherwise sw crashes
+                if (obj.GetSuppression2() != (int)swComponentSuppressionState_e.swComponentResolved)
                 {
-                    ModelDoc2 swModelDoc = (ModelDoc2)obj.GetModelDoc2();
-                    string objName = System.IO.Path.GetFileNameWithoutExtension(swModelDoc.GetPathName());
-                    if (objName == item)
+                    supressionError = obj.SetSuppression2((int)swComponentSuppressionState_e.swComponentResolved);
+                
+                    foreach (string item in selectedObjects)
                     {
-                        obj.SetSuppression2(2);
-                        IModelDocExtension modelExtension = swModelDoc.Extension;
-                        Configuration activeConf = (Configuration)swModelDoc.GetActiveConfiguration();
-                        string activeConfName = activeConf.Name;
-                        double[] actualValue = (double[])modelExtension.GetMaterialPropertyValues((int)swInConfigurationOpts_e.swAllConfiguration, activeConfName);
-                        string it = System.IO.Path.GetFileNameWithoutExtension(swModelDoc.GetPathName());
-                        double[] rgbColors = cic.GetRgbColor(swModelDoc);
-                        // RGB color for red (values between 0.0 and 1.0)
-                        if (rgbColors.Length == 3 && rgbColors[0] != -1)
+                        ModelDoc2 swModelDoc = (ModelDoc2)obj.GetModelDoc2();
+                        if (objName == item)
                         {
-                            actualValue[0] = rgbColors[0];//red
-                            actualValue[1] = rgbColors[1];//green
-                            actualValue[2] = rgbColors[2];//blue
-                            actualValue[3] = 0.8; // Ambient
-                            actualValue[4] = 0.5; // Diffuse
-                            actualValue[5] = 0.6; // Specular
-                            actualValue[6] = 0.9; // Shininess
-                            actualValue[7] = 0.0; // Transparency
-                            actualValue[8] = 0.0; // Emission
+                            //if the component2 really was setted as resolved execute the change collor
+                            if (supressionError == 2)
+                            {
+                                IModelDocExtension modelExtension = swModelDoc.Extension;
+                                Configuration activeConf = (Configuration)swModelDoc.GetActiveConfiguration();
+                                string activeConfName = activeConf.Name;
+                                double[] actualValue = (double[])modelExtension.GetMaterialPropertyValues((int)swInConfigurationOpts_e.swAllConfiguration, activeConfName);
+                                string it = System.IO.Path.GetFileNameWithoutExtension(swModelDoc.GetPathName());
+                                double[] rgbColors = cic.GetRgbColor(swModelDoc);
+                                // RGB color for red (values between 0.0 and 1.0)
+                                if (rgbColors.Length == 3 && rgbColors[0] != -1)
+                                {
+                                    actualValue[0] = rgbColors[0];//red
+                                    actualValue[1] = rgbColors[1];//green
+                                    actualValue[2] = rgbColors[2];//blue
+                                    actualValue[3] = 0.8; // Ambient
+                                    actualValue[4] = 0.5; // Diffuse
+                                    actualValue[5] = 0.6; // Specular
+                                    actualValue[6] = 0.9; // Shininess
+                                    actualValue[7] = 0.0; // Transparency
+                                    actualValue[8] = 0.0; // Emission
 
-                            // Apply color to the top-level assembly
-                            modelExtension.SetMaterialPropertyValues(actualValue, (int)swInConfigurationOpts_e.swAllConfiguration, null);
-                            swModelDoc.EditRebuild3();
+                                    // Apply color to the top-level assembly
+                                    modelExtension.SetMaterialPropertyValues(actualValue, (int)swInConfigurationOpts_e.swAllConfiguration, null);
+                                    swModelDoc.EditRebuild3();
 
-                            int saveOption = (int)swSaveAsOptions_e.swSaveAsOptions_Silent;
+                                    int saveOption = (int)swSaveAsOptions_e.swSaveAsOptions_Silent;
 
-                            swModelDoc.Save3(saveOption, lErrors, lWarnings);
+                                    swModelDoc.Save3(saveOption, lErrors, lWarnings);
+                                }
+                                else
+                                {
+                                    MessageBox.Show($"Item {objName} has no color");
+                                }
+                            }
                         }
-                        
                     }
+                }
+                else
+                {
+                    MessageBox.Show($"Item {objName} couldn't be setted as resolved");
                 }
             }
 
@@ -90,7 +106,9 @@ namespace TestSwAddIn.Forms
                 MessageBox.Show("The following items couldn't be saved\n:" + string.Join("\n", errors.Select(error => $"• {error}")));
             }
         }
+        #endregion
 
+        #region btnSelectAll
         private void BtnSelectAll_Click(object sender, EventArgs e)
         {
             for(int i = 0; i < clbChildren.Items.Count; i++)
@@ -98,7 +116,9 @@ namespace TestSwAddIn.Forms
                 clbChildren.SetItemChecked(i, true);
             }
         }
+        #endregion
 
+        #region btnUnselectAll
         private void BtnUnselectAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < clbChildren.Items.Count; i++)
@@ -106,7 +126,9 @@ namespace TestSwAddIn.Forms
                 clbChildren.SetItemChecked(i, false);
             }
         }
+        #endregion
 
+        #region btnSelectShown
         private void BtnSelectShown_Click(object sender, EventArgs e)
         {
             ListComponents lc = new ListComponents();
@@ -126,6 +148,7 @@ namespace TestSwAddIn.Forms
                 }
             }
         }
+        #endregion
 
         private void BtnChangeColorItem_Click(object sender, EventArgs e)
         {

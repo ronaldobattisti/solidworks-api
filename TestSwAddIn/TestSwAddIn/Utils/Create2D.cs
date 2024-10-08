@@ -12,7 +12,5 @@ namespace TestSwAddIn.Utils
     class Create2D
     {
         SldWorks swApp;
-
-        
     }
 }
