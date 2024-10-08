@@ -52,11 +52,12 @@ namespace TestSwAddIn.Forms
                     string objName = System.IO.Path.GetFileNameWithoutExtension(swModelDoc.GetPathName());
                     if (objName == item)
                     {
+                        obj.SetSuppression2(2);
                         IModelDocExtension modelExtension = swModelDoc.Extension;
                         Configuration activeConf = (Configuration)swModelDoc.GetActiveConfiguration();
                         string activeConfName = activeConf.Name;
                         double[] actualValue = (double[])modelExtension.GetMaterialPropertyValues((int)swInConfigurationOpts_e.swAllConfiguration, activeConfName);
-
+                        string it = System.IO.Path.GetFileNameWithoutExtension(swModelDoc.GetPathName());
                         double[] rgbColors = cic.GetRgbColor(swModelDoc);
                         // RGB color for red (values between 0.0 and 1.0)
                         if (rgbColors.Length == 3 && rgbColors[0] != -1)
