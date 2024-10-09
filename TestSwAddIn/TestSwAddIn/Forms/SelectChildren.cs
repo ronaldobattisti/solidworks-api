@@ -51,7 +51,8 @@ namespace TestSwAddIn.Forms
                 if (obj.GetSuppression2() != (int)swComponentSuppressionState_e.swComponentResolved)
                 {
                     supressionError = obj.SetSuppression2((int)swComponentSuppressionState_e.swComponentResolved);
-                
+                    
+                    //Sweep all Component2 to check witch of them is the one checked at CheckedListBox
                     foreach (string item in selectedObjects)
                     {
                         ModelDoc2 swModelDoc = (ModelDoc2)obj.GetModelDoc2();
@@ -89,7 +90,7 @@ namespace TestSwAddIn.Forms
                                 }
                                 else
                                 {
-                                    MessageBox.Show($"Item {objName} has no color");
+                                    //MessageBox.Show($"Item {objName} has no color");
                                 }
                             }
                         }

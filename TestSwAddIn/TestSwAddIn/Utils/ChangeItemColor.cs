@@ -34,7 +34,11 @@ namespace TestSwAddIn.Utils
                         {
                             paintCode = propertyResolvedValue.Split('-')[0];
                             rgbColor = GetColor(paintCode);
-                            return rgbColor;
+                            if (rgbColor.Length > 1)
+                            {
+                                return rgbColor;
+                            }
+                            return new double[] { 0 };
                         }
                         else
                         {
@@ -64,6 +68,9 @@ namespace TestSwAddIn.Utils
             /// Exceptions:
             ///   T:System.IO.IOException:
             ///     An I/O error occurred.
+            ///     
+            double[] retColor = { };
+            double[] retError = { 0 };
 
             Dictionary<string, double[]> colors = new Dictionary<string, double[]>{
                 {"84351", new double[] {1, 1, 1 } },    //White powder
@@ -78,8 +85,14 @@ namespace TestSwAddIn.Utils
             //MessageBox.Show("Color geted: " + codColor + " Color painted: " + colors[codColor]);
 
             //return the entire property changing just the collor
-            
-            return colors[codColor];
+
+
+
+            if (colors.ContainsKey(codColor))
+            {
+                return retColor;
+            }
+            else return retError;
         }
     }
 }

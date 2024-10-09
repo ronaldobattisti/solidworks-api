@@ -21,7 +21,6 @@ namespace TestSwAddIn.Utils
             //int options = (int)swOpenDocOptions_e.swOpenDocOptions_OverrideDefaultLoadLightweight;
             string configurations = "";
             int errors = 0;
-            int warnings = 0;
 
             MessageBox.Show($"fileName: {filePath}\ntype: {type}\noptions: {options}\nconfigurations: {configurations}");
 
