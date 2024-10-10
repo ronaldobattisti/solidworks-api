@@ -38,7 +38,10 @@ namespace TestSwAddIn.Utils
                             {
                                 return rgbColor;
                             }
-                            return new double[] { 0 };
+                            else
+                            {
+                                return errorDouble;
+                            }
                         }
                         else
                         {
@@ -90,9 +93,12 @@ namespace TestSwAddIn.Utils
 
             if (colors.ContainsKey(codColor))
             {
-                return retColor;
+                return colors[codColor];
             }
-            else return retError;
+            else
+            {
+                return retError;
+            }
         }
     }
 }

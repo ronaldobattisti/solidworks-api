@@ -57,9 +57,10 @@ namespace SampleAddIn
                     break;
 
                 case Commands_e.Test:
-
+                    Create_2D c2d = new Create_2D();
+                    c2d.Create2D();
                     break;
-            }   
+            }
         }
         SldWorks swApp;
     }
