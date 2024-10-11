@@ -37,6 +37,6 @@ namespace TestSwAddIn.Utils
             swApp.CloseDoc(item.GetPathName());
         }
 
-        SldWorks swApp;
+        SldWorks swApp = null;
     }
 }

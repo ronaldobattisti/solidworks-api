@@ -12,7 +12,7 @@ namespace TestSwAddIn.Utils
         {
             ModelDoc2 swDoc = null;
             DrawingDoc swDrawing = null;
-            AssemblyDoc swAssembly = null;
+            //AssemblyDoc swAssembly = null;
             bool boolstatus = false;
 
             swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
@@ -31,8 +31,8 @@ namespace TestSwAddIn.Utils
                 DrawingDoc swPart = ((DrawingDoc)(swDoc));
                 //place a try catch here
                 boolstatus = swPart.GenerateViewPaletteViews(itemPath);
-                View myView = null;
-                myView = ((View)(swDrawing.DropDrawingViewFromPalette2("Vista de desenho1", 1.1024722863741338E+18, 9.078048498845268E+18, 0)));
+                View frontView = ((View)(swDrawing.DropDrawingViewFromPalette2("*Frontal", 0.05, 0.25, 0)));
+                View rightView = ((View)(swDrawing.CreateUnfoldedViewAt3(0.4, 0, 0, false)));
             }
             else
             {

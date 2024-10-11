@@ -15,12 +15,12 @@ using SolidWorks.Interop.swconst;
 namespace SampleAddIn
 {
     [ComVisible(true)]
-    [Guid("1EE37F60-45F7-4FFA-93E2-5ACCC371530F")]
-    [Title("RAutomation")]
+    [Guid("591AF4D3-4109-4828-883B-717E9C672F22")]
+    [Title("BSW")]
 
     public class TestSampleAddIn : SwAddInEx
     {
-        [Title("Sample AddIn")]
+        [Title("BSW")]
         public enum Commands_e
         {
             [Title("Change color")]
