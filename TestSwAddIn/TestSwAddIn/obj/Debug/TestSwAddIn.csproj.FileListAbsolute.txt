@@ -53,3 +53,5 @@ C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSw
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.dll
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.pdb
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.csprojAssemblyReference.cache
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.Forms.SelectChildrenForm.resources
+C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.Forms.ConfigurationForm.resources

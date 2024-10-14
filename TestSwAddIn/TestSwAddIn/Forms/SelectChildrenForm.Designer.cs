@@ -1,6 +1,6 @@
 ﻿namespace TestSwAddIn.Forms
 {
-    partial class SelectChildren
+    partial class SelectChildrenForm
     {
         /// <summary>
         /// Required designer variable.
