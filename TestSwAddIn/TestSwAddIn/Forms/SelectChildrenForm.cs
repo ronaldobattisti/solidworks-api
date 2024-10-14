@@ -11,12 +11,12 @@ using Utils;
 
 namespace TestSwAddIn.Forms
 {
-    public partial class SelectChildren : Form
+    public partial class SelectChildrenForm : Form
     {
         private List<Component2> listChildrenComponents;
         private List<Component2> listChildrenComponentsDisplayed;
 
-        public SelectChildren(List<Component2> fstChildren, List<Component2> fstChildrenDisplayed)
+        public SelectChildrenForm(List<Component2> fstChildren, List<Component2> fstChildrenDisplayed)
         {
 
             OpenFile offs = new OpenFile();
@@ -244,29 +244,6 @@ namespace TestSwAddIn.Forms
             color[6] = 0.5; // Shininess
             color[7] = 0.0; // Transparency
             color[8] = 0.0; // Emission
-
-
-            //rootComponent.SetMaterialPropertyValues2(color, (int)swInConfigurationOpts_e.swThisConfiguration, Type.Missing);
-
-
-            /*MessageBox.Show("Before foreach");
-
-            foreach (Component2 item in listChildrenComponents)
-            {
-                string itemName = System.IO.Path.GetFileNameWithoutExtension(item.GetPathName()).ToUpper();
-                string modelName = System.IO.Path.GetFileNameWithoutExtension(swModel.GetPathName()).ToUpper();
-                MessageBox.Show("Item: " + itemName + " | Model: " + modelName);
-                if (itemName == modelName)
-                {
-                    object confName = Type.Missing;
-                    int confOpt = (int)swInConfigurationOpts_e.swAllConfiguration;
-                    double[] materialProps = (double[])item.GetMaterialPropertyValues2(confOpt, confName);
-                    MessageBox.Show("Colors: " + materialProps[0] + materialProps[1] + materialProps[2]);
-                }
-            }*/
-
-
-
         }
         SldWorks swApp;
     }

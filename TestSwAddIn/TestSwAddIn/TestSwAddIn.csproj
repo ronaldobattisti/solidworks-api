@@ -70,11 +70,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\SelectChildren.cs">
+    <Compile Include="Forms\ConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SelectChildren.Designer.cs">
-      <DependentUpon>SelectChildren.cs</DependentUpon>
+    <Compile Include="Forms\ConfigurationForm.Designer.cs">
+      <DependentUpon>ConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SelectChildrenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SelectChildrenForm.Designer.cs">
+      <DependentUpon>SelectChildrenForm.cs</DependentUpon>
     </Compile>
     <Compile Include="obj\Debug\TemporaryGeneratedFile_591AF4D3-4109-4828-883B-717E9C672F22.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -94,8 +100,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\SelectChildren.resx">
-      <DependentUpon>SelectChildren.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ConfigurationForm.resx">
+      <DependentUpon>ConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SelectChildrenForm.resx">
+      <DependentUpon>SelectChildrenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

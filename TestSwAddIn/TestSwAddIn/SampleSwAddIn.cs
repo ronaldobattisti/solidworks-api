@@ -31,7 +31,12 @@ namespace SampleAddIn
             [Title("Create 2D")]
             [Description("Create 2D")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
-            Test
+            Test,
+
+            [Title("Settings")]
+            [Description("Settings")]
+            [Icon(typeof(Resources), nameof(Resources.Imagem1))]
+            Settings,
         }
 
         public override void OnConnect()
@@ -52,13 +57,18 @@ namespace SampleAddIn
                     List<Component2> childrenShown = new List<Component2>();
                     children = lc.ListChildrenComponents();
                     childrenShown = lc.ListChildrenComponentsDisplayed();
-                    SelectChildren sc = new SelectChildren(children, childrenShown);
+                    SelectChildrenForm sc = new SelectChildrenForm(children, childrenShown);
                     sc.Show();
                     break;
 
                 case Commands_e.Test:
                     Create_2D c2d = new Create_2D();
                     c2d.Create2D();
+                    break;
+
+                case Commands_e.Settings:
+                    ConfigurationForm cf = new ConfigurationForm();
+                    cf.Show();
                     break;
             }
         }
