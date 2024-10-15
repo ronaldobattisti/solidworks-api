@@ -28,59 +28,76 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabControl1.SuspendLayout();
+            this.lblSheetTemplate = new System.Windows.Forms.Label();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.txtFilePath = new System.Windows.Forms.TextBox();
+            this.btnSearchFile = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // lblSheetTemplate
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(450, 334);
-            this.tabControl1.TabIndex = 0;
+            this.lblSheetTemplate.AutoSize = true;
+            this.lblSheetTemplate.Location = new System.Drawing.Point(13, 13);
+            this.lblSheetTemplate.Name = "lblSheetTemplate";
+            this.lblSheetTemplate.Size = new System.Drawing.Size(184, 13);
+            this.lblSheetTemplate.TabIndex = 0;
+            this.lblSheetTemplate.Text = "Select the path to the sheet template:";
             // 
-            // tabPage1
+            // openFileDialog
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(442, 308);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // tabPage2
+            // txtFilePath
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(442, 308);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.txtFilePath.Location = new System.Drawing.Point(12, 29);
+            this.txtFilePath.Name = "txtFilePath";
+            this.txtFilePath.Size = new System.Drawing.Size(264, 20);
+            this.txtFilePath.TabIndex = 1;
+            // 
+            // btnSearchFile
+            // 
+            this.btnSearchFile.Location = new System.Drawing.Point(282, 29);
+            this.btnSearchFile.Name = "btnSearchFile";
+            this.btnSearchFile.Size = new System.Drawing.Size(94, 20);
+            this.btnSearchFile.TabIndex = 2;
+            this.btnSearchFile.Text = "Search Directory";
+            this.btnSearchFile.UseVisualStyleBackColor = true;
+            this.btnSearchFile.Click += new System.EventHandler(this.btnSearchFile_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(169, 193);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(48, 20);
+            this.btnSave.TabIndex = 3;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(479, 364);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(394, 225);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnSearchFile);
+            this.Controls.Add(this.txtFilePath);
+            this.Controls.Add(this.lblSheetTemplate);
             this.Name = "ConfigurationForm";
-            this.Text = "ConfigurationForm";
-            this.tabControl1.ResumeLayout(false);
+            this.Text = "Settings";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Label lblSheetTemplate;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.TextBox txtFilePath;
+        private System.Windows.Forms.Button btnSearchFile;
+        private System.Windows.Forms.Button btnSave;
     }
 }

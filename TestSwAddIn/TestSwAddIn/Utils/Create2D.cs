@@ -28,17 +28,24 @@ namespace TestSwAddIn.Utils
             string itemPath = swDoc.GetPathName();
             double sheetWidth = 0.0;
             double sheetHeight = 0.0;
+            double scale = 0.0;
 
 
             if (swDoc != null && swDoc.GetType() != (int)swDocumentTypes_e.swDocDRAWING)
             {
                 //Reference the model .drwdot that will be caught
-                //swDoc = ((ModelDoc2)(swApp.NewDocument("C:\\Users\\rbattisti\\Desktop\\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
-                swDoc = ((ModelDoc2)(swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
+                swDoc = ((ModelDoc2)(swApp.NewDocument(@"\\fileserver.sazi.com.br\sistemas$\SolidWorks\Templates\rbattisti\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
+                //swDoc = ((ModelDoc2)(swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
                 swDrawing = (DrawingDoc)swDoc;
-                Sheet swSheet = null;
-                swSheet = (Sheet)swDrawing.GetCurrentSheet();
-                //paperSize = (swDwgPaperSizes_e)swSheet.GetSize(ref width, ref height);
+                Sheet swSheet = (Sheet)swDrawing.GetCurrentSheet();
+                //Get the size of the sheet - I want to extract only the size
+                double[] sheetProperties = (double[])swSheet.GetProperties2();
+                //*100 to cast from meter to milimeter
+                sheetWidth = sheetProperties[5] * 100;
+                sheetHeight = sheetProperties[6] * 100;
+
+                scale = GetScale(sheetWidth, sheetHeight, size[0], size[1], size[2], HaveFlatPattern(swDoc));
+
                 DrawingDoc swPart = ((DrawingDoc)(swDoc));
                 //place a try catch here
                 boolstatus = swPart.GenerateViewPaletteViews(itemPath);
@@ -105,7 +112,7 @@ namespace TestSwAddIn.Utils
             {
                 if (HaveFlatPattern(item))
                 {
-                    MessageBox.Show($"item {System.IO.Path.GetFileNameWithoutExtension(item.GetPathName())} have flat pattern");
+                    //MessageBox.Show($"item {System.IO.Path.GetFileNameWithoutExtension(item.GetPathName())} have flat pattern");
                     boolstatus = item.Extension.SelectByID2("Padrão-Plano", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
                     PartDoc swPart = (PartDoc)item;
                     boundingBox = (double[])swPart.GetPartBox(false);
@@ -115,7 +122,7 @@ namespace TestSwAddIn.Utils
                 }
                 else
                 {
-                    MessageBox.Show($"item {System.IO.Path.GetFileNameWithoutExtension(item.GetPathName())} don't have flat pattern");
+                    //MessageBox.Show($"item {System.IO.Path.GetFileNameWithoutExtension(item.GetPathName())} don't have flat pattern");
                     PartDoc swPart = (PartDoc)item;
                     boundingBox = (double[])swPart.GetPartBox(false);
                     xSize = boundingBox[3] - boundingBox[0];
@@ -126,9 +133,13 @@ namespace TestSwAddIn.Utils
             }
             else if (item.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
             {
-
+                AssemblyDoc swAsm = (AssemblyDoc)item;
+                boundingBox = (Double[])swAsm.GetBox((int)swBoundingBoxOptions_e.swBoundingBoxIncludeRefPlanes);
+                xSize = boundingBox[3] - boundingBox[0];
+                ySize = boundingBox[4] - boundingBox[1];
+                zSize = boundingBox[5] - boundingBox[2];
             }
-            return new double[] {0.0, 0.0};
+            return new double[] {xSize, ySize, zSize};
         }
 
         public bool HaveFlatPattern(ModelDoc2 item)
@@ -136,6 +147,15 @@ namespace TestSwAddIn.Utils
             bool boolstatus = false;
             boolstatus = item.Extension.SelectByID2("Padrão-Plano", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
             return boolstatus;
+        }
+
+        private double GetScale(double paperWidth, double paperHeight, double itemWidth, double itemHeight, double itemLength, bool haveFlatPattern)
+        {
+            double xScale = ((paperWidth / itemWidth) / 3);
+            double yScale = ((paperWidth / itemLength) / 3);
+            double zScale = ((paperHeight / itemHeight) / 5);
+            //return Math.Min(xScale, yScale, zScale);
+            return 0.0;
         }
         SldWorks swApp;
     }
