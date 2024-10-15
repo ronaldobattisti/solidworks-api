@@ -53,12 +53,12 @@
             // 
             this.txtFilePath.Location = new System.Drawing.Point(12, 29);
             this.txtFilePath.Name = "txtFilePath";
-            this.txtFilePath.Size = new System.Drawing.Size(264, 20);
+            this.txtFilePath.Size = new System.Drawing.Size(380, 20);
             this.txtFilePath.TabIndex = 1;
             // 
             // btnSearchFile
             // 
-            this.btnSearchFile.Location = new System.Drawing.Point(282, 29);
+            this.btnSearchFile.Location = new System.Drawing.Point(398, 29);
             this.btnSearchFile.Name = "btnSearchFile";
             this.btnSearchFile.Size = new System.Drawing.Size(94, 20);
             this.btnSearchFile.TabIndex = 2;
@@ -80,7 +80,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 225);
+            this.ClientSize = new System.Drawing.Size(504, 225);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSearchFile);
             this.Controls.Add(this.txtFilePath);

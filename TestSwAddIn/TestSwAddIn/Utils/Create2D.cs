@@ -34,15 +34,15 @@ namespace TestSwAddIn.Utils
             if (swDoc != null && swDoc.GetType() != (int)swDocumentTypes_e.swDocDRAWING)
             {
                 //Reference the model .drwdot that will be caught
-                swDoc = ((ModelDoc2)(swApp.NewDocument(@"\\fileserver.sazi.com.br\sistemas$\SolidWorks\Templates\rbattisti\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
-                //swDoc = ((ModelDoc2)(swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
+                //swDoc = ((ModelDoc2)(swApp.NewDocument(@"\\fileserver.sazi.com.br\sistemas$\SolidWorks\Templates\rbattisti\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
+                swDoc = ((ModelDoc2)(swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
                 swDrawing = (DrawingDoc)swDoc;
                 Sheet swSheet = (Sheet)swDrawing.GetCurrentSheet();
                 //Get the size of the sheet - I want to extract only the size
                 double[] sheetProperties = (double[])swSheet.GetProperties2();
-                //*100 to cast from meter to milimeter
-                sheetWidth = sheetProperties[5] * 100;
-                sheetHeight = sheetProperties[6] * 100;
+                //*10 to cast from centimeter to milimeter
+                sheetWidth = (double)sheetProperties[5] * 1000;
+                sheetHeight = (double)sheetProperties[6] * 1000;
 
                 scale = GetScale(sheetWidth, sheetHeight, size[0], size[1], size[2], HaveFlatPattern(swDoc));
 
@@ -51,7 +51,7 @@ namespace TestSwAddIn.Utils
                 boolstatus = swPart.GenerateViewPaletteViews(itemPath);
                 if (boolstatus == true)
                 {
-                    swSheet.SetProperties2(12, 12, 1, 5, false, swSheetWidth, swSheetHeight, true);
+                    swSheet.SetProperties2(12, 12, 1, scale, false, swSheetWidth, swSheetHeight, true);
                     string[] palleteViewNames = (string[])swDrawing.GetDrawingPaletteViewNames();
                     double xPosFront = 0.05;
                     double yPosFront = 0.25;
@@ -151,11 +151,22 @@ namespace TestSwAddIn.Utils
 
         private double GetScale(double paperWidth, double paperHeight, double itemWidth, double itemHeight, double itemLength, bool haveFlatPattern)
         {
-            double xScale = ((paperWidth / itemWidth) / 3);
-            double yScale = ((paperWidth / itemLength) / 3);
-            double zScale = ((paperHeight / itemHeight) / 5);
-            //return Math.Min(xScale, yScale, zScale);
-            return 0.0;
+            double xScale = ((paperWidth / itemWidth) / 9);
+            double yScale = ((paperWidth / itemLength) / 9);
+            double zScale = ((paperHeight / itemHeight) / 15);
+            double[] scales = { xScale, yScale, zScale };
+
+            double lower = 1/xScale;
+
+            foreach (double item in scales)
+            {
+                if (1/item < lower)
+                {
+                    lower = 1/item;
+                }
+            }
+
+            return lower;
         }
         SldWorks swApp;
     }
