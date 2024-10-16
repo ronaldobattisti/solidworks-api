@@ -33,6 +33,7 @@
             this.txtFilePath = new System.Windows.Forms.TextBox();
             this.btnSearchFile = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblSheetTemplate
@@ -76,11 +77,19 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(12, 67);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(380, 20);
+            this.textBox1.TabIndex = 4;
+            // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 225);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSearchFile);
             this.Controls.Add(this.txtFilePath);
@@ -99,5 +108,6 @@
         private System.Windows.Forms.TextBox txtFilePath;
         private System.Windows.Forms.Button btnSearchFile;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
