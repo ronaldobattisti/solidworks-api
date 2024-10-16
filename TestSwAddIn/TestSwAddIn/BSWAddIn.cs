@@ -33,6 +33,11 @@ namespace BSWAddIn
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
             Test,
 
+            [Title("Save DXF")]
+            [Description("Save DXF")]
+            [Icon(typeof(Resources), nameof(Resources.Imagem1))]
+            SaveDxf,
+
             [Title("Settings")]
             [Description("Settings")]
             [Icon(typeof(Resources), nameof(Resources.Imagem1))]
@@ -64,6 +69,11 @@ namespace BSWAddIn
                 case Commands_e.Test:
                     Create_2D c2d = new Create_2D();
                     c2d.Create2D();
+                    break;
+
+                case Commands_e.SaveDxf:
+                    Save_Dxf sd = new Save_Dxf();
+                    sd.SaveDxf();
                     break;
 
                 case Commands_e.Settings:

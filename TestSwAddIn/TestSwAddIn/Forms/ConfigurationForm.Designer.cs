@@ -30,10 +30,12 @@
         {
             this.lblSheetTemplate = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.txtFilePath = new System.Windows.Forms.TextBox();
-            this.btnSearchFile = new System.Windows.Forms.Button();
+            this.txtTemplatePath = new System.Windows.Forms.TextBox();
+            this.btnSearchTemplate = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtDxfPath = new System.Windows.Forms.TextBox();
+            this.btnSearchDxfFolder = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblSheetTemplate
@@ -50,49 +52,70 @@
             this.openFileDialog.FileName = "openFileDialog";
             this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // txtFilePath
+            // txtTemplatePath
             // 
-            this.txtFilePath.Location = new System.Drawing.Point(12, 29);
-            this.txtFilePath.Name = "txtFilePath";
-            this.txtFilePath.Size = new System.Drawing.Size(380, 20);
-            this.txtFilePath.TabIndex = 1;
+            this.txtTemplatePath.Location = new System.Drawing.Point(12, 29);
+            this.txtTemplatePath.Name = "txtTemplatePath";
+            this.txtTemplatePath.Size = new System.Drawing.Size(380, 20);
+            this.txtTemplatePath.TabIndex = 1;
             // 
-            // btnSearchFile
+            // btnSearchTemplate
             // 
-            this.btnSearchFile.Location = new System.Drawing.Point(398, 29);
-            this.btnSearchFile.Name = "btnSearchFile";
-            this.btnSearchFile.Size = new System.Drawing.Size(94, 20);
-            this.btnSearchFile.TabIndex = 2;
-            this.btnSearchFile.Text = "Search Directory";
-            this.btnSearchFile.UseVisualStyleBackColor = true;
-            this.btnSearchFile.Click += new System.EventHandler(this.btnSearchFile_Click);
+            this.btnSearchTemplate.Location = new System.Drawing.Point(398, 29);
+            this.btnSearchTemplate.Name = "btnSearchTemplate";
+            this.btnSearchTemplate.Size = new System.Drawing.Size(94, 20);
+            this.btnSearchTemplate.TabIndex = 2;
+            this.btnSearchTemplate.Text = "Search Directory";
+            this.btnSearchTemplate.UseVisualStyleBackColor = true;
+            this.btnSearchTemplate.Click += new System.EventHandler(this.btnSearchFile_Click);
             // 
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(169, 193);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(48, 20);
-            this.btnSave.TabIndex = 3;
+            this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // textBox1
+            // txtDxfPath
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 67);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(380, 20);
-            this.textBox1.TabIndex = 4;
+            this.txtDxfPath.Location = new System.Drawing.Point(12, 77);
+            this.txtDxfPath.Name = "txtDxfPath";
+            this.txtDxfPath.Size = new System.Drawing.Size(380, 20);
+            this.txtDxfPath.TabIndex = 3;
+            // 
+            // btnSearchDxfFolder
+            // 
+            this.btnSearchDxfFolder.Location = new System.Drawing.Point(398, 77);
+            this.btnSearchDxfFolder.Name = "btnSearchDxfFolder";
+            this.btnSearchDxfFolder.Size = new System.Drawing.Size(94, 20);
+            this.btnSearchDxfFolder.TabIndex = 4;
+            this.btnSearchDxfFolder.Text = "Search Directory";
+            this.btnSearchDxfFolder.UseVisualStyleBackColor = true;
+            this.btnSearchDxfFolder.Click += new System.EventHandler(this.btnSearchDxfFolder_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 61);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(318, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Select the directory to save DXF and check for unusefull files(.prs)";
             // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 225);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtDxfPath);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnSearchFile);
-            this.Controls.Add(this.txtFilePath);
+            this.Controls.Add(this.btnSearchDxfFolder);
+            this.Controls.Add(this.btnSearchTemplate);
+            this.Controls.Add(this.txtTemplatePath);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblSheetTemplate);
             this.Name = "ConfigurationForm";
             this.Text = "Settings";
@@ -105,9 +128,11 @@
 
         private System.Windows.Forms.Label lblSheetTemplate;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.TextBox txtFilePath;
-        private System.Windows.Forms.Button btnSearchFile;
+        private System.Windows.Forms.TextBox txtTemplatePath;
+        private System.Windows.Forms.Button btnSearchTemplate;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtDxfPath;
+        private System.Windows.Forms.Button btnSearchDxfFolder;
+        private System.Windows.Forms.Label label1;
     }
 }

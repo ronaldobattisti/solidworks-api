@@ -34,8 +34,8 @@ namespace TestSwAddIn.Utils
             if (swDoc != null && swDoc.GetType() != (int)swDocumentTypes_e.swDocDRAWING)
             {
                 //Reference the model .drwdot that will be caught
-                //swDoc = ((ModelDoc2)(swApp.NewDocument(@"\\fileserver.sazi.com.br\sistemas$\SolidWorks\Templates\rbattisti\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
-                swDoc = ((ModelDoc2)(swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
+                swDoc = ((ModelDoc2)(swApp.NewDocument(@"\\fileserver.sazi.com.br\sistemas$\SolidWorks\Templates\rbattisti\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
+                //swDoc = ((ModelDoc2)(swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
                 swDrawing = (DrawingDoc)swDoc;
                 Sheet swSheet = (Sheet)swDrawing.GetCurrentSheet();
                 //Get the size of the sheet - I want to extract only the size
@@ -54,9 +54,9 @@ namespace TestSwAddIn.Utils
                     swSheet.SetProperties2(12, 12, 1, scale, false, swSheetWidth, swSheetHeight, true);
                     string[] palleteViewNames = (string[])swDrawing.GetDrawingPaletteViewNames();
                     double xPosFront = 0.05;
-                    double yPosFront = 0.25;
+                    double yPosFront = 0.22;
                     double xPosOffset = 0.1;
-                    double yPosOffset = 0.1;
+                    double yPosOffset = 0.07;
                     double xPosFlat = 0.1;
                     double yPosFlat = 0.1;
                     if (palleteViewNames.Contains("*Frontal"))
@@ -149,20 +149,20 @@ namespace TestSwAddIn.Utils
             return boolstatus;
         }
 
-        private double GetScale(double paperWidth, double paperHeight, double itemWidth, double itemHeight, double itemLength, bool haveFlatPattern)
+        private double GetScale(double paperWidth, double paperHeight, double itemX, double itemY, double itemZ, bool haveFlatPattern)
         {
-            double xScale = ((paperWidth / itemWidth) / 9);
-            double yScale = ((paperWidth / itemLength) / 9);
-            double zScale = ((paperHeight / itemHeight) / 15);
+            double xScale = 1/((paperWidth / itemX) / 3);
+            double yScale = 1/((paperWidth / itemY) / 3);
+            double zScale = 1/((paperHeight / itemZ) / 3);
             double[] scales = { xScale, yScale, zScale };
 
-            double lower = 1/xScale;
+            double lower = xScale;
 
             foreach (double item in scales)
             {
-                if (1/item < lower)
+                if (item > lower)
                 {
-                    lower = 1/item;
+                    lower = item;
                 }
             }
 

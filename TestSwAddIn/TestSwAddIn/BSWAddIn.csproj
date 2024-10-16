@@ -94,6 +94,7 @@
     <Compile Include="Utils\Create2D.cs" />
     <Compile Include="Utils\ListComponents.cs" />
     <Compile Include="Utils\OpenFile.cs" />
+    <Compile Include="Utils\SaveDxf.cs" />
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>

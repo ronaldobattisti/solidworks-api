@@ -36,7 +36,7 @@ namespace TestSwAddIn.Forms
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 // Display the selected file path in the TextBox
-                txtFilePath.Text = openFileDialog.FileName;
+                txtTemplatePath.Text = openFileDialog.FileName;
             }
         }
 
@@ -44,6 +44,24 @@ namespace TestSwAddIn.Forms
         {
             //string filePath = ;
 
+        }
+
+        private void btnSearchDxfFolder_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+
+            // Show the dialog and get the result
+            DialogResult result = folderDialog.ShowDialog();
+
+            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
+            {
+                // Display the selected folder path
+                Console.WriteLine("Selected folder: " + folderDialog.SelectedPath);
+            }
+            else
+            {
+                Console.WriteLine("No folder selected.");
+            }
         }
     }
 }
