@@ -3,11 +3,8 @@ using SolidWorks.Interop.swconst;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using View = SolidWorks.Interop.sldworks.View;
-using System.Runtime.CompilerServices;
-using System.Windows.Media.Media3D;
 using System.Linq;
 using System;
-using Xarial.XCad.Geometry.Evaluation;
 
 namespace TestSwAddIn.Utils
 {
@@ -53,6 +50,7 @@ namespace TestSwAddIn.Utils
                 {
                     swSheet.SetProperties2(12, 12, 1, scale, false, swSheetWidth, swSheetHeight, true);
                     string[] palleteViewNames = (string[])swDrawing.GetDrawingPaletteViewNames();
+                    //here are setted the absolute and relative positions to insert the view
                     double xPosFront = 0.05;
                     double yPosFront = 0.22;
                     double xPosOffset = 0.1;
@@ -72,13 +70,14 @@ namespace TestSwAddIn.Utils
                         MessageBox.Show("View '*Front' could not be found");
                     }
 
-                    if (palleteViewNames.Contains("Padrão plano")){
+                    if (palleteViewNames.Contains("Padrão plano") && HaveFlatPattern(swDoc))
+                    {
                         View flatPatternView = (View)(swDrawing.DropDrawingViewFromPalette2("Padrão plano", xPosFlat, yPosFlat, 0));
                     }
-                    else
+                    /*else
                     {
                         MessageBox.Show("View 'Padrão plano' couldn't be found");
-                    }
+                    }*/
 
                     if (palleteViewNames.Contains("*Isométrica"))
                     {
@@ -135,9 +134,10 @@ namespace TestSwAddIn.Utils
             {
                 AssemblyDoc swAsm = (AssemblyDoc)item;
                 boundingBox = (Double[])swAsm.GetBox((int)swBoundingBoxOptions_e.swBoundingBoxIncludeRefPlanes);
-                xSize = boundingBox[3] - boundingBox[0];
-                ySize = boundingBox[4] - boundingBox[1];
-                zSize = boundingBox[5] - boundingBox[2];
+                //In assembly returns in meter, so we have to *1000 to get in milimeters
+                xSize = (boundingBox[3] - boundingBox[0]) * 1000;
+                ySize = (boundingBox[4] - boundingBox[1]) * 1000;
+                zSize = (boundingBox[5] - boundingBox[2]) * 1000;
             }
             return new double[] {xSize, ySize, zSize};
         }
@@ -146,14 +146,18 @@ namespace TestSwAddIn.Utils
         {
             bool boolstatus = false;
             boolstatus = item.Extension.SelectByID2("Padrão-Plano", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
+            if (boolstatus == false)
+            {
+                boolstatus = item.Extension.SelectByID2("DefaultSM-FLAT-PATTERN", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
+            }
             return boolstatus;
         }
 
         private double GetScale(double paperWidth, double paperHeight, double itemX, double itemY, double itemZ, bool haveFlatPattern)
         {
-            double xScale = 1/((paperWidth / itemX) / 3);
-            double yScale = 1/((paperWidth / itemY) / 3);
-            double zScale = 1/((paperHeight / itemZ) / 3);
+            double xScale = 1/((paperWidth / itemX) / 4);
+            double yScale = 1/((paperWidth / itemY) / 4);
+            double zScale = 1/((paperHeight / itemZ) / 5);
             double[] scales = { xScale, yScale, zScale };
 
             double lower = xScale;

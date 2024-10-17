@@ -1,8 +1,5 @@
 ﻿using SolidWorks.Interop.sldworks;
-using System.Runtime.InteropServices;
 using System.Windows;
-using System;
-using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 
 namespace TestSwAddIn.Utils
@@ -12,44 +9,30 @@ namespace TestSwAddIn.Utils
         public double[] GetRgbColor(ModelDoc2 swModel)
         {
             CustomPropertyManager cusPropMgr = swModel.Extension.CustomPropertyManager[""];
-            String paintCode = "";
-            string properties = "";
-            string propertyValue = "";
-            string propertyResolvedValue = "";
-            bool wasResolved = false;
+            string paintCode = "";
+            string propName = "TRATAMENTO_SUPERFICIAL";
             string[] propertyNames = (string[])cusPropMgr.GetNames();
             double[] rgbColor = new double[] { };
             double[] errorDouble = new double[] {-1};
             if (propertyNames != null)
             {
-                //For each property write its value
-                properties = ("File: " + System.IO.Path.GetFileNameWithoutExtension(swModel.GetPathName()) + "\n");
-                foreach (string propertyName in propertyNames)
+                //If the item is configured, paint it grey
+                if (IsConf(cusPropMgr) && GetProperty(cusPropMgr, "COR SECUNDARIA").ToUpper() == "COR SECUNDARIA")
                 {
-                    cusPropMgr.Get5(propertyName, false, out propertyValue, out propertyResolvedValue, out wasResolved);
-                    properties += ("Property: " + propertyName + " = " + propertyValue + "\n");
-                    if (propertyName.ToUpper() == "TRATAMENTO_SUPERFICIAL")
+                    return GetColor("57459");
+                } else
+                {
+                    paintCode = GetProperty(cusPropMgr, propName).Split('-')[0];
+                    rgbColor = GetColor(paintCode);
+                    if (rgbColor.Length > 1)
                     {
-                        if (propertyResolvedValue != "")
-                        {
-                            paintCode = propertyResolvedValue.Split('-')[0];
-                            rgbColor = GetColor(paintCode);
-                            if (rgbColor.Length > 1)
-                            {
-                                return rgbColor;
-                            }
-                            else
-                            {
-                                return errorDouble;
-                            }
-                        }
-                        else
-                        {
-                            return errorDouble;
-                        }
+                        return rgbColor;
+                    }
+                    else
+                    {
+                        return errorDouble;
                     }
                 }
-                return errorDouble;
             }
             else
             {
@@ -58,20 +41,48 @@ namespace TestSwAddIn.Utils
             }
         }
 
-        public static double[] GetColor(string codColor)
+        private bool IsConf(CustomPropertyManager cusPropMgr)
         {
-            /// Summary:
-            ///     Writes the specified string value, followed by the current line terminator, to
-            ///     the standard output stream.
-            ///
-            /// Parameters:
-            ///   value:
-            ///     The value to write.
-            ///
-            /// Exceptions:
-            ///   T:System.IO.IOException:
-            ///     An I/O error occurred.
-            ///     
+            string[] propertyNames = (string[])cusPropMgr.GetNames();
+            string propertyValue = "";
+            string propertyResolvedValue = "";
+            bool wasResolved = false;
+
+            foreach (string propertyName in propertyNames)
+            {
+                cusPropMgr.Get5(propertyName, false, out propertyValue, out propertyResolvedValue, out wasResolved);
+                string pName = propertyName;
+                string pValue = propertyResolvedValue;
+                if (propertyName.ToUpper() == "CONFIGURADO" && propertyResolvedValue != "" && propertyResolvedValue.ToUpper() == "SIM")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private string GetProperty(CustomPropertyManager cusPropMgr, string propName)
+        {
+            string[] propertyNames = (string[])cusPropMgr.GetNames();
+            string propertyValue = "";
+            string propertyResolvedValue = "";
+            bool wasResolved = false;
+            string propValue = "";
+
+            //For each property write its value
+            foreach (string propertyName in propertyNames)
+            {
+                cusPropMgr.Get5(propertyName, false, out propertyValue, out propertyResolvedValue, out wasResolved);
+                if (propertyName.ToUpper() == propName && propertyResolvedValue != "")
+                {
+                    propValue = propertyResolvedValue;
+                }
+            }
+            return propValue;
+        }
+
+        private double[] GetColor(string codColor)
+        {
             double[] retColor = { };
             double[] retError = { 0 };
 
@@ -84,12 +95,6 @@ namespace TestSwAddIn.Utils
                 {"39236", new double[] { 0.333, 0.333, 0.333 } },    //Blue liquid
                 {"2071", new double[] {0.216, 0.216, 0.216 } }      //Black powder
             };
-
-            //MessageBox.Show("Color geted: " + codColor + " Color painted: " + colors[codColor]);
-
-            //return the entire property changing just the collor
-
-
 
             if (colors.ContainsKey(codColor))
             {

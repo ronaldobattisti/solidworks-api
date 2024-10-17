@@ -36,6 +36,7 @@
             this.txtDxfPath = new System.Windows.Forms.TextBox();
             this.btnSearchDxfFolder = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblSheetTemplate
@@ -71,7 +72,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(169, 193);
+            this.btnSave.Location = new System.Drawing.Point(182, 353);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(48, 20);
             this.btnSave.TabIndex = 5;
@@ -105,11 +106,21 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Select the directory to save DXF and check for unusefull files(.prs)";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 111);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(239, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Input the standart color when a item is configured";
+            // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 225);
+            this.ClientSize = new System.Drawing.Size(504, 385);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.txtDxfPath);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSearchDxfFolder);
@@ -134,5 +145,6 @@
         private System.Windows.Forms.TextBox txtDxfPath;
         private System.Windows.Forms.Button btnSearchDxfFolder;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

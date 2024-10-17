@@ -10,7 +10,6 @@ using Utils;
 using TestSwAddIn.Utils;
 using TestSwAddIn.Forms;
 using SolidWorks.Interop.sldworks;
-using SolidWorks.Interop.swconst;
 
 namespace BSWAddIn
 {
@@ -50,6 +49,8 @@ namespace BSWAddIn
             cmdGrp.CommandClick += CmGrp_CommandClick;
         }
 
+        //Ensures that the COM components can run properly within your application's main thread.
+        [STAThread]
         private void CmGrp_CommandClick(Commands_e spec)
         {
             ListComponents lc = new ListComponents();

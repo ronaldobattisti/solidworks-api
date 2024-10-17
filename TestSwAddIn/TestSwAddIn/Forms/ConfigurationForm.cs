@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestSwAddIn.Models;
+using System.IO;
+using System.Text.Json;
 
 namespace TestSwAddIn.Forms
 {
     public partial class ConfigurationForm : Form
     {
+        public const string settingPath = @"Settings/settings.json";
+
         public ConfigurationForm()
         {
             InitializeComponent();
@@ -42,8 +41,14 @@ namespace TestSwAddIn.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //string filePath = ;
+            Settings settings = new Settings();
+            string sheetTemplatePath = txtTemplatePath.ToString();
+            string dxfPath = txtDxfPath.ToString();
+            settings.sheetTemplatePath = sheetTemplatePath;
+            settings.dxfPath = dxfPath;
 
+            string jsonString = JsonSerializer.Serialize(settings);
+            File.WriteAllText(settingPath, jsonString);
         }
 
         private void btnSearchDxfFolder_Click(object sender, EventArgs e)
