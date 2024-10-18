@@ -8,7 +8,7 @@ namespace TestSwAddIn.Models
 {
     public class Settings
     {
-        public string sheetTemplatePath { get; set; }
-        public string dxfPath { get; set; }
+        public string SheetTemplatePath { get; set; }
+        public string DxfPath { get; set; }
     }
 }

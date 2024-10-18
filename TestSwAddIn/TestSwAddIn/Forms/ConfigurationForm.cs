@@ -7,21 +7,34 @@ using System.Text.Json;
 
 namespace TestSwAddIn.Forms
 {
+
     public partial class ConfigurationForm : Form
     {
-        public const string settingPath = @"Settings/settings.json";
+        public const string settingPath = @"../../Settings/settings.json";
+        Settings settings = new Settings();
 
         public ConfigurationForm()
         {
             InitializeComponent();
+            LoadJsonSettings();
+            TxtTemplatePath.Text = settings.SheetTemplatePath;
         }
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        public bool LoadJsonSettings()
         {
+            if (File.Exists(settingPath))
+            {
+                string jsonString = File.ReadAllText(settingPath);
+                settings = JsonSerializer.Deserialize<Settings>(jsonString);
+            } else
+            {
+                MessageBox.Show($"File {settingPath} could'n be found");
 
+            }
+            return true;
         }
 
-        private void btnSearchFile_Click(object sender, EventArgs e)
+        private void BtnSearchFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -35,23 +48,35 @@ namespace TestSwAddIn.Forms
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 // Display the selected file path in the TextBox
-                txtTemplatePath.Text = openFileDialog.FileName;
+                TxtTemplatePath.Text = openFileDialog.FileName;
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
-            string sheetTemplatePath = txtTemplatePath.ToString();
+            
+            string sheetTemplatePath = TxtTemplatePath.ToString();
             string dxfPath = txtDxfPath.ToString();
-            settings.sheetTemplatePath = sheetTemplatePath;
-            settings.dxfPath = dxfPath;
+            settings.SheetTemplatePath = sheetTemplatePath;
+            settings.DxfPath = dxfPath;
 
             string jsonString = JsonSerializer.Serialize(settings);
-            File.WriteAllText(settingPath, jsonString);
+            try
+            {
+                File.WriteAllText(settingPath, jsonString);
+                MessageBox.Show("Changes saved sucessifully");
+                this.Close();
+
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+            
+
         }
 
-        private void btnSearchDxfFolder_Click(object sender, EventArgs e)
+        private void BtnSearchDxfFolder_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderDialog = new FolderBrowserDialog();
 
@@ -67,6 +92,12 @@ namespace TestSwAddIn.Forms
             {
                 Console.WriteLine("No folder selected.");
             }
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Changes were not applied");
+            this.Close();
         }
     }
 }

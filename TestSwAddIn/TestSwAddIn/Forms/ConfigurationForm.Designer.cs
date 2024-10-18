@@ -30,13 +30,14 @@
         {
             this.lblSheetTemplate = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.txtTemplatePath = new System.Windows.Forms.TextBox();
+            this.TxtTemplatePath = new System.Windows.Forms.TextBox();
             this.btnSearchTemplate = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.txtDxfPath = new System.Windows.Forms.TextBox();
             this.btnSearchDxfFolder = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.BtnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblSheetTemplate
@@ -51,14 +52,13 @@
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog";
-            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // txtTemplatePath
+            // TxtTemplatePath
             // 
-            this.txtTemplatePath.Location = new System.Drawing.Point(12, 29);
-            this.txtTemplatePath.Name = "txtTemplatePath";
-            this.txtTemplatePath.Size = new System.Drawing.Size(380, 20);
-            this.txtTemplatePath.TabIndex = 1;
+            this.TxtTemplatePath.Location = new System.Drawing.Point(12, 29);
+            this.TxtTemplatePath.Name = "TxtTemplatePath";
+            this.TxtTemplatePath.Size = new System.Drawing.Size(380, 20);
+            this.TxtTemplatePath.TabIndex = 1;
             // 
             // btnSearchTemplate
             // 
@@ -68,17 +68,17 @@
             this.btnSearchTemplate.TabIndex = 2;
             this.btnSearchTemplate.Text = "Search Directory";
             this.btnSearchTemplate.UseVisualStyleBackColor = true;
-            this.btnSearchTemplate.Click += new System.EventHandler(this.btnSearchFile_Click);
+            this.btnSearchTemplate.Click += new System.EventHandler(this.BtnSearchFile_Click);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(182, 353);
+            this.btnSave.Location = new System.Drawing.Point(149, 353);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(48, 20);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // txtDxfPath
             // 
@@ -95,7 +95,7 @@
             this.btnSearchDxfFolder.TabIndex = 4;
             this.btnSearchDxfFolder.Text = "Search Directory";
             this.btnSearchDxfFolder.UseVisualStyleBackColor = true;
-            this.btnSearchDxfFolder.Click += new System.EventHandler(this.btnSearchDxfFolder_Click);
+            this.btnSearchDxfFolder.Click += new System.EventHandler(this.BtnSearchDxfFolder_Click);
             // 
             // label1
             // 
@@ -115,6 +115,16 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Input the standart color when a item is configured";
             // 
+            // BtnCancel
+            // 
+            this.BtnCancel.Location = new System.Drawing.Point(95, 353);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(48, 20);
+            this.BtnCancel.TabIndex = 5;
+            this.BtnCancel.Text = "Cancel";
+            this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -122,10 +132,11 @@
             this.ClientSize = new System.Drawing.Size(504, 385);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtDxfPath);
+            this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSearchDxfFolder);
             this.Controls.Add(this.btnSearchTemplate);
-            this.Controls.Add(this.txtTemplatePath);
+            this.Controls.Add(this.TxtTemplatePath);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblSheetTemplate);
             this.Name = "ConfigurationForm";
@@ -139,12 +150,13 @@
 
         private System.Windows.Forms.Label lblSheetTemplate;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.TextBox txtTemplatePath;
+        private System.Windows.Forms.TextBox TxtTemplatePath;
         private System.Windows.Forms.Button btnSearchTemplate;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox txtDxfPath;
         private System.Windows.Forms.Button btnSearchDxfFolder;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button BtnCancel;
     }
 }

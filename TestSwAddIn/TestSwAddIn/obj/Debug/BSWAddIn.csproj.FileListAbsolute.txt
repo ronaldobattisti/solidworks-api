@@ -29,7 +29,6 @@ C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSw
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Xarial.XCad.xml
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Xarial.XCad.SolidWorks.xml
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Xarial.XCad.Toolkit.xml
-C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\BSWAddIn.csprojAssemblyReference.cache
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.Forms.ConfigurationForm.resources
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.Forms.SelectChildrenForm.resources
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\TestSwAddIn.Properties.Resources.resources
