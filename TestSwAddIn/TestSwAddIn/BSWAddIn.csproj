@@ -120,7 +120,7 @@
     <Compile Include="BSWAddIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\JsonSettingsExporter.cs" />
-    <Compile Include="Services\JsonSettingsImporter.cs" />
+    <Compile Include="Services\JsonImporter.cs" />
     <Compile Include="Utils\ChangeItemColor.cs" />
     <Compile Include="Utils\Create2D.cs" />
     <Compile Include="Utils\ListComponents.cs" />
