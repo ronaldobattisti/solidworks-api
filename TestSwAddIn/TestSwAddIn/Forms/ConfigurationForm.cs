@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using TestSwAddIn.Models;
 using System.IO;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace TestSwAddIn.Forms
 {
@@ -25,11 +25,10 @@ namespace TestSwAddIn.Forms
             if (File.Exists(settingPath))
             {
                 string jsonString = File.ReadAllText(settingPath);
-                settings = JsonSerializer.Deserialize<Settings>(jsonString);
+                settings = JsonConvert.DeserializeObject<Settings>(jsonString);
             } else
             {
                 MessageBox.Show($"File {settingPath} could'n be found");
-
             }
             return true;
         }
@@ -55,25 +54,21 @@ namespace TestSwAddIn.Forms
         private void BtnSave_Click(object sender, EventArgs e)
         {
             
-            string sheetTemplatePath = TxtTemplatePath.ToString();
-            string dxfPath = txtDxfPath.ToString();
+            string sheetTemplatePath = TxtTemplatePath.Text;
+            string dxfPath = txtDxfPath.Text;
             settings.SheetTemplatePath = sheetTemplatePath;
             settings.DxfPath = dxfPath;
 
-            string jsonString = JsonSerializer.Serialize(settings);
             try
             {
+                string jsonString = JsonConvert.SerializeObject(settings);
                 File.WriteAllText(settingPath, jsonString);
                 MessageBox.Show("Changes saved sucessifully");
                 this.Close();
-
             } catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
-
-            
-
         }
 
         private void BtnSearchDxfFolder_Click(object sender, EventArgs e)
