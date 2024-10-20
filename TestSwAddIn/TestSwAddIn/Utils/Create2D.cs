@@ -5,6 +5,9 @@ using System.Runtime.InteropServices;
 using View = SolidWorks.Interop.sldworks.View;
 using System.Linq;
 using System;
+using TestSwAddIn.Forms;
+using TestSwAddIn.Models;
+using TestSwAddIn.Services;
 
 namespace TestSwAddIn.Utils
 {
@@ -12,6 +15,12 @@ namespace TestSwAddIn.Utils
     {
         public void Create2D()
         {
+            Settings settings = new Settings();
+            JsonImporter jsonImporter = new JsonImporter();
+            //get the path where the settings are saved - it is a const string placed in ConfigurationForm
+            string settingPath = ConfigurationForm.settingPath;
+            settings = (Settings)jsonImporter.LoadJson(settingPath, settings);
+
             ModelDoc2 swDoc = null;
             DrawingDoc swDrawing = null;
             //AssemblyDoc swAssembly = null;
@@ -31,7 +40,7 @@ namespace TestSwAddIn.Utils
             if (swDoc != null && swDoc.GetType() != (int)swDocumentTypes_e.swDocDRAWING)
             {
                 //Reference the model .drwdot that will be caught
-                swDoc = ((ModelDoc2)(swApp.NewDocument(@"\\fileserver.sazi.com.br\sistemas$\SolidWorks\Templates\rbattisti\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
+                swDoc = ((ModelDoc2)(swApp.NewDocument(settings.SheetTemplatePath, (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
                 //swDoc = ((ModelDoc2)(swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
                 swDrawing = (DrawingDoc)swDoc;
                 Sheet swSheet = (Sheet)swDrawing.GetCurrentSheet();
@@ -144,11 +153,17 @@ namespace TestSwAddIn.Utils
 
         public bool HaveFlatPattern(ModelDoc2 item)
         {
+            //SolidWorks could have many names for the standart flat pattern configuration depending of
+            //the version or templates, so I created a String with tha main ones to scan them
+            string[] flatNames = { "Padrão-Plano", "DefaultSM-FLAT-PATTERN", "Valor predeterminadoSM-FLAT-PATTERN" };
             bool boolstatus = false;
-            boolstatus = item.Extension.SelectByID2("Padrão-Plano", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
-            if (boolstatus == false)
+            foreach (string flatName in flatNames)
             {
-                boolstatus = item.Extension.SelectByID2("DefaultSM-FLAT-PATTERN", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
+                boolstatus = item.Extension.SelectByID2(flatName, "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
+                if (boolstatus == true)
+                {
+                    return boolstatus;
+                }
             }
             return boolstatus;
         }

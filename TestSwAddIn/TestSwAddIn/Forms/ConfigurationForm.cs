@@ -1,10 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 using TestSwAddIn.Models;
-using System.IO;
-using Newtonsoft.Json;
-using System.Security.Policy;
 using TestSwAddIn.Services;
 
 namespace TestSwAddIn.Forms
@@ -17,28 +13,16 @@ namespace TestSwAddIn.Forms
         public string sheetTemplatePath = "";
         Settings settings = new Settings();
         JsonImporter jsonImporter = new JsonImporter();
+        JsonExporter jsonExporter = new JsonExporter();
 
 
         public ConfigurationForm()
         {
             InitializeComponent();
-            settings = (Settings)jsonImporter.LoadJsonSettings(settingPath);
+            settings = (Settings)jsonImporter.LoadJson(settingPath, settings);
             TxtTemplatePath.Text = settings.SheetTemplatePath;
             txtDxfPath.Text = settings.DxfPath;
         }
-
-        /*public bool LoadJsonSettings()
-        {
-            if (File.Exists(settingPath))
-            {
-                string jsonString = File.ReadAllText(settingPath);
-                settings = JsonConvert.DeserializeObject<Settings>(jsonString);
-            } else
-            {
-                MessageBox.Show($"File {settingPath} could'n be found");
-            }
-            return true;
-        }*/
 
         private void BtnSearchTemplateFile_Click(object sender, EventArgs e)
         {
@@ -83,11 +67,9 @@ namespace TestSwAddIn.Forms
             settings.SheetTemplatePath = sheetTemplatePath;
             settings.DxfPath = dxfPath;
 
-            try
-            {
-                string jsonString = JsonConvert.SerializeObject(settings);
-                File.WriteAllText(settingPath, jsonString);
-                MessageBox.Show("Changes saved sucessifully");
+            try {
+                bool boolstatus = jsonExporter.ExportJson(settingPath, settings);
+                MessageBox.Show("Settings saved sucessifully!");
                 this.Close();
             } catch (Exception ex)
             {
