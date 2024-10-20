@@ -1,14 +1,14 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-using System.Data;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using TestSwAddIn.Forms;
 using TestSwAddIn.Models;
 using TestSwAddIn.Services;
-using Xarial.XCad;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace TestSwAddIn.Utils
 {
@@ -30,13 +30,17 @@ namespace TestSwAddIn.Utils
             object varViews;
             string[] dataViews = new string[2];
             int options = 0;
-
+            int bitMask = 0;
+            bool boolStatus = false;
+            string[] extensionsToDelete = {".DXF", ".DWG", ".PRS", ".ODT", ".TXT" };
 
             swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
             ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
 
             sModelName = System.IO.Path.GetFileNameWithoutExtension(swModel.GetPathName());
             sPathName = settings.DxfPath + @"\\" + sModelName + ".DXF";
+
+            boolStatus = DeleteFileFromDirectory(settings.DxfPath, sModelName, extensionsToDelete);
 
             swPart = (PartDoc)swModel;
 
@@ -61,89 +65,50 @@ namespace TestSwAddIn.Utils
             varViews = dataViews;
 
             //Export each annotation view to a separate drawing file
-            swPart.ExportToDWG2(sPathName, sModelName, (int)swExportToDWG_e.swExportToDWG_ExportAnnotationViews, false, varAlignment, false, false, 0, varViews);
+            swPart.ExportToDWG2(sPathName, sModelName, (int)swExportToDWG_e.swExportToDWG_ExportSheetMetal/*(int)swExportToDWG_e.swExportToDWG_ExportAnnotationViews*/, false, varAlignment, false, false, bitMask, varViews);
+            //BitMask is used to select what will be exported in the drawing, see 
+            //help.solidworks.com/2022/english/api/sldworksapi/solidworks.interop.sldworks~solidworks.interop.sldworks.ipartdoc~exporttodwg2.html
 
-            //Export sheet metal to a single drawing file
-            options = 1;  //include flat-pattern geometry
-            swPart.ExportToDWG2(sPathName, sModelName, (int)swExportToDWG_e.swExportToDWG_ExportSheetMetal, true, varAlignment, false, false, options, null);
+            MessageBox.Show("DXF saved Sucessifully");
+        }
 
-            /*Settings settings = new Settings();
-            JsonImporter jsonImporter = new JsonImporter();
-            //get the path where the settings are saved - it is a const string placed in ConfigurationForm
-            string settingPath = ConfigurationForm.settingPath;
-
-            settings = (Settings)jsonImporter.LoadJson(settingPath, settings);
-            swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
-            ModelDoc2 swModelDoc = (ModelDoc2)swApp.ActiveDoc;
-            PartDoc swPart = null;
-            string dxfPath = settings.DxfPath;
-
-
-
-            MessageBox.Show($"DXF path: {dxfPath}");
-
-
-
-            try
+        public bool DeleteFileFromDirectory(string folderPath, string fileName, string[] extensions)
+        {
+            bool boolStatus = false;
+            string filePath = "";
+            string deletedItems = null;
+            string notDeletedItems = null;
+            string upperExtension = "";
+            foreach (string extension in extensions)
             {
-                if (swModelDoc == null)
+                upperExtension = extension.ToUpper();
+                filePath = folderPath + @"\" + fileName + upperExtension;
+                if (File.Exists(filePath))
                 {
-                    Console.WriteLine("Failed to open part: ");
-                    return;
-                }
-
-                // Cast the model to a part document
-                swPart = (PartDoc)swModelDoc;
-
-                // Check if the part has a flat pattern (for sheet metal)
-                Feature flatPatternFeature = (Feature)swPart.FeatureByName("Flat-Pattern1");
-                if (flatPatternFeature != null)
-                {
-                    // Create the flat pattern if it is not already created
-                    swPart.CreateFlatPatternView();
-                    Console.WriteLine("Flat pattern created.");
-                }
-
-                // Export the flat pattern as a DXF file
-                bool exportSuccess = swModelDoc.Extension.SaveAs(dxfPath,
-                    (int)swSaveAsVersion_e.swSaveAsCurrentVersion,
-                    (int)swSaveAsOptions_e.swSaveAsOptions_Copy,
-                    null, ref intErrors, ref intWarnings);
-
-                if (exportSuccess)
-                {
-                    Console.WriteLine("DXF saved successfully at: " + dxfPath);
-                }
-                else
-                {
-                    Console.WriteLine("Failed to save DXF.");
+                    try
+                    {
+                        File.Delete(filePath);
+                        deletedItems += filePath + ";\n";
+                    }
+                    catch (Exception ex)
+                    {
+                        notDeletedItems += notDeletedItems + ";\n";
+                    }
                 }
             }
-            catch (COMException comEx)
-            {
-                Console.WriteLine("COM Exception: " + comEx.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Exception: " + ex.Message);
-            }
-            finally
-            {
-                // Close the part if it was opened
-                if (swModelDoc != null)
-                {
-                    swApp.CloseDoc(swModelDoc.GetTitle());
-                }
+            MessageBox.Show($"The following item were deleted: " +
+                            $"{"\n" + deletedItems}" + 
+                            $"The following items could not be deleted:" +
+                            $"{"\n" + notDeletedItems}");
 
-                // Clean up the COM object
-                if (swApp != null)
-                {
-                    Marshal.ReleaseComObject(swApp);
-                    swApp = null;
-                }
-            }*/
+            return boolStatus;
+        }
+
+        public void CreateDxfVisualization(ModelDoc2 component)
+        {
 
         }
+
         SldWorks swApp;
     }
 }

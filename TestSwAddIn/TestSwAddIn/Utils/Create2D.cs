@@ -41,7 +41,6 @@ namespace TestSwAddIn.Utils
             {
                 //Reference the model .drwdot that will be caught
                 swDoc = ((ModelDoc2)(swApp.NewDocument(settings.SheetTemplatePath, (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
-                //swDoc = ((ModelDoc2)(swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\A4 RETRATO.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, swSheetWidth, swSheetHeight)));
                 swDrawing = (DrawingDoc)swDoc;
                 Sheet swSheet = (Sheet)swDrawing.GetCurrentSheet();
                 //Get the size of the sheet - I want to extract only the size
@@ -79,9 +78,19 @@ namespace TestSwAddIn.Utils
                         MessageBox.Show("View '*Front' could not be found");
                     }
 
-                    if (palleteViewNames.Contains("Padrão plano") && HaveFlatPattern(swDoc))
+                    if (HaveFlatPattern(swDoc))
                     {
-                        View flatPatternView = (View)(swDrawing.DropDrawingViewFromPalette2("Padrão plano", xPosFlat, yPosFlat, 0));
+                        //Run over each name possibility bcs the name in no standardized
+                        string[] flatPatternNames = { "Padrão plano", "Flat pattern", "Padrão-plano", "Flat-pattern", "*Padrão plano" };
+                        foreach (string flatPatternName in flatPatternNames)
+                        {
+                            View flatPatternView = (View)(swDrawing.DropDrawingViewFromPalette2("Padrão plano", xPosFlat, yPosFlat, 0));
+                            if (flatPatternView != null)
+                            {
+                                break;
+                            }
+                        }
+                        //View flatPatternView = (View)(swDrawing.DropDrawingViewFromPalette2("Padrão plano", xPosFlat, yPosFlat, 0));
                     }
                     /*else
                     {
