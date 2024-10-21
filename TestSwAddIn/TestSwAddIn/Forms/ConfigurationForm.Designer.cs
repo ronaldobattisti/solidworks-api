@@ -68,7 +68,7 @@
             this.btnSearchTemplate.TabIndex = 2;
             this.btnSearchTemplate.Text = "Search Directory";
             this.btnSearchTemplate.UseVisualStyleBackColor = true;
-            this.btnSearchTemplate.Click += new System.EventHandler(this.BtnSearchFile_Click);
+            this.btnSearchTemplate.Click += new System.EventHandler(this.BtnSearchTemplateFile_Click);
             // 
             // btnSave
             // 
