@@ -82,5 +82,10 @@ namespace TestSwAddIn.Forms
             MessageBox.Show("Changes were not applied");
             this.Close();
         }
+
+        public object GetConfiguration()
+        {
+            return (Settings)jsonImporter.LoadJson(settingPath, settings);
+        }
     }
 }

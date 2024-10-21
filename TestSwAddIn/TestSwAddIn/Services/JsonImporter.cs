@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using TestSwAddIn.Forms;
 using TestSwAddIn.Models;
 
 // Recieve the file path and the object return the object deserialized
@@ -16,7 +10,8 @@ namespace TestSwAddIn.Services
     {
         public object LoadJson(string pathToJson, object obj)
         {
-            if (File.Exists(pathToJson))
+            string fullPath = Path.GetFullPath(pathToJson);
+            if (File.Exists(fullPath))
             {
                 string jsonString = File.ReadAllText(pathToJson);
                 obj = JsonConvert.DeserializeObject<Settings>(jsonString);
@@ -24,7 +19,7 @@ namespace TestSwAddIn.Services
             }
             else
             {
-                MessageBox.Show($"File {pathToJson} could'n be found");
+                MessageBox.Show($"File {fullPath} could'n be found");
                 return null;
             }
         }

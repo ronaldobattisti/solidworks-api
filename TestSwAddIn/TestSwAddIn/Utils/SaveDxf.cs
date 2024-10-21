@@ -9,6 +9,7 @@ using TestSwAddIn.Forms;
 using TestSwAddIn.Models;
 using TestSwAddIn.Services;
 using MessageBox = System.Windows.Forms.MessageBox;
+using View = SolidWorks.Interop.sldworks.View;
 
 namespace TestSwAddIn.Utils
 {
@@ -64,6 +65,7 @@ namespace TestSwAddIn.Utils
 
             varViews = dataViews;
 
+            CreateDxfVisualization(swModel);
             //Export each annotation view to a separate drawing file
             swPart.ExportToDWG2(sPathName, sModelName, (int)swExportToDWG_e.swExportToDWG_ExportSheetMetal/*(int)swExportToDWG_e.swExportToDWG_ExportAnnotationViews*/, false, varAlignment, false, false, bitMask, varViews);
             //BitMask is used to select what will be exported in the drawing, see 
@@ -104,9 +106,40 @@ namespace TestSwAddIn.Utils
             return boolStatus;
         }
 
-        public void CreateDxfVisualization(ModelDoc2 component)
+        public void CreateDxfVisualization(ModelDoc2 swDoc)
         {
+            string tempPath = $"../../TempFiles/" + swDoc.GetTitle() + ".SLDDRW";
+            tempPath = Path.GetFullPath(tempPath);
+            Create_2D c2d = new Create_2D();
+            DrawingDoc swDrawing = null;
+            double[] paperSize = c2d.GetBoundingSize(swDoc);
+            double sheetWidth = (double)paperSize[0];
+            double sheetHeight = (double)paperSize[1];
+            bool boolstatus = false;
 
+
+            swDoc = ((ModelDoc2)(swApp.NewDocument(tempPath, (int)swDwgPaperSizes_e.swDwgPapersUserDefined, sheetWidth, sheetHeight)));
+            swDrawing = (DrawingDoc)swDoc;
+            Sheet swSheet = (Sheet)swDrawing.GetCurrentSheet();
+            //Get the size of the sheet - I want to extract only the size
+            double[] sheetProperties = (double[])swSheet.GetProperties2();
+            
+            DrawingDoc swPart = ((DrawingDoc)(swDoc));
+            boolstatus = swPart.GenerateViewPaletteViews(swDoc.GetPathName());
+            if (boolstatus == true)
+            {
+                swSheet.SetProperties2(12, 12, 1, 1, false, sheetWidth, sheetHeight, true);
+                string[] palleteViewNames = (string[])swDrawing.GetDrawingPaletteViewNames();
+                if (c2d.HaveFlatPattern(swDoc))
+                {
+                    //Run over each name possibility bcs the name in no standardized
+                    string[] flatPatternNames = { "Padrão plano", "Flat pattern", "Padrão-plano", "Flat-pattern", "*Padrão plano" };
+                    foreach (string flatPatternName in flatPatternNames)
+                    {
+                        View flatPatternView = (View)swDrawing.DropDrawingViewFromPalette2(flatPatternName, 0, 0, 0);
+                    }
+                }
+            }
         }
 
         SldWorks swApp;

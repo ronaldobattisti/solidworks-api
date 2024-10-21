@@ -140,7 +140,6 @@ C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSw
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Numerics.Vectors.dll
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Text.Encodings.Web.dll
-C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Text.Json.dll
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Threading.Tasks.Extensions.dll
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Buffers.xml
@@ -148,7 +147,6 @@ C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSw
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Text.Encodings.Web.xml
-C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Text.Json.xml
 C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\TestSwAddIn.dll.config
 C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Microsoft.Win32.Primitives.dll
@@ -265,3 +263,8 @@ C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMac
 C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.IO.Pipelines.xml
 C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Newtonsoft.Json.dll
 C:\Users\RONAL\Desktop\programming\SolidWorks_Cs\SwCsharpMacroSample\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Newtonsoft.Json.xml
+C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Newtonsoft.Json.dll
+C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.IO.Pipelines.dll
+C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\Newtonsoft.Json.xml
+C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\bin\Debug\System.IO.Pipelines.xml
+C:\Users\rbattisti\Desktop\Teste Macro Cs\SwCsharpMacroSample\TestSwAddIn\TestSwAddIn\obj\Debug\BSWAddIn.csprojAssemblyReference.cache

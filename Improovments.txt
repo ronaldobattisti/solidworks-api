@@ -1,0 +1,1 @@
+-If settings.json are not found, create a new one
