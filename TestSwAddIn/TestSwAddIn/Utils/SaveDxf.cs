@@ -39,7 +39,7 @@ namespace TestSwAddIn.Utils
             ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
 
             sModelName = System.IO.Path.GetFileNameWithoutExtension(swModel.GetPathName());
-            sPathName = settings.DxfPath + @"\\" + sModelName + ".DXF";
+            sPathName = settings.DxfPath + "\\" + sModelName + ".DXF";
 
             boolStatus = DeleteFileFromDirectory(settings.DxfPath, sModelName, extensionsToDelete);
 
@@ -67,7 +67,7 @@ namespace TestSwAddIn.Utils
 
             CreateDxfVisualization(swModel);
             //Export each annotation view to a separate drawing file
-            swPart.ExportToDWG2(sPathName, sModelName, (int)swExportToDWG_e.swExportToDWG_ExportSheetMetal/*(int)swExportToDWG_e.swExportToDWG_ExportAnnotationViews*/, false, varAlignment, false, false, bitMask, varViews);
+            swPart.ExportToDWG2(sPathName, sModelName, /*(int)swExportToDWG_e.swExportToDWG_ExportSheetMetal*/(int)swExportToDWG_e.swExportToDWG_ExportAnnotationViews, false, varAlignment, false, false, bitMask, varViews);
             //BitMask is used to select what will be exported in the drawing, see 
             //help.solidworks.com/2022/english/api/sldworksapi/solidworks.interop.sldworks~solidworks.interop.sldworks.ipartdoc~exporttodwg2.html
 
@@ -117,8 +117,9 @@ namespace TestSwAddIn.Utils
             double sheetHeight = (double)paperSize[1];
             bool boolstatus = false;
 
+            //swDoc = ((ModelDoc2)(swApp.NewDocument(tempPath, (int)swDwgPaperSizes_e.swDwgPapersUserDefined, sheetWidth, sheetHeight)));
+            swDoc = ((ModelDoc2)swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\DXF.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, sheetWidth, sheetHeight));
 
-            swDoc = ((ModelDoc2)(swApp.NewDocument(tempPath, (int)swDwgPaperSizes_e.swDwgPapersUserDefined, sheetWidth, sheetHeight)));
             swDrawing = (DrawingDoc)swDoc;
             Sheet swSheet = (Sheet)swDrawing.GetCurrentSheet();
             //Get the size of the sheet - I want to extract only the size
