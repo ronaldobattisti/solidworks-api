@@ -118,7 +118,7 @@ namespace TestSwAddIn.Utils
             bool boolstatus = false;
 
             //swDoc = ((ModelDoc2)(swApp.NewDocument(tempPath, (int)swDwgPaperSizes_e.swDwgPapersUserDefined, sheetWidth, sheetHeight)));
-            swDoc = ((ModelDoc2)swApp.NewDocument("C:\\SOLIDWORKS Data\\rbattisti\\DXF.drwdot", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, sheetWidth, sheetHeight));
+            swDoc = ((ModelDoc2)swApp.NewDocument(@"\\fileserver\sistemas$\SolidWorks\Templates\rbattisti\Desenho.DRWDOT", (int)swDwgPaperSizes_e.swDwgPapersUserDefined, sheetWidth, sheetHeight));
 
             swDrawing = (DrawingDoc)swDoc;
             Sheet swSheet = (Sheet)swDrawing.GetCurrentSheet();

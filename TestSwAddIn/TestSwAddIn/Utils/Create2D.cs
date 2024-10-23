@@ -13,13 +13,16 @@ namespace TestSwAddIn.Utils
 {
     class Create_2D
     {
+
         public void Create2D()
         {
-            Settings settings = new Settings();
+            /*Settings settings = new Settings();
             JsonImporter jsonImporter = new JsonImporter();
             //get the path where the settings are saved - it is a const string placed in ConfigurationForm
             string settingPath = ConfigurationForm.settingPath;
-            settings = (Settings)jsonImporter.LoadJson(settingPath, settings);
+            settings = (Settings)jsonImporter.LoadJson(settingPath, settings);*/
+
+            Settings settings = JsonImporter.LoadJson();
 
             ModelDoc2 swDoc = null;
             DrawingDoc swDrawing = null;

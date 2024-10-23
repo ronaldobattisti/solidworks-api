@@ -8,20 +8,16 @@ namespace TestSwAddIn.Forms
 
     public partial class ConfigurationForm : Form
     {
-        public const string settingPath = @"../../Settings/settings.json";
         public string dxfPath = "";
         public string sheetTemplatePath = "";
-        Settings settings = new Settings();
+        string settingPath = Settings.settingPath;
         JsonImporter jsonImporter = new JsonImporter();
         JsonExporter jsonExporter = new JsonExporter();
-
+        object settings = Settings.Instance;
 
         public ConfigurationForm()
         {
             InitializeComponent();
-            settings = (Settings)jsonImporter.LoadJson(settingPath, settings);
-            TxtTemplatePath.Text = settings.SheetTemplatePath;
-            txtDxfPath.Text = settings.DxfPath;
         }
 
         private void BtnSearchTemplateFile_Click(object sender, EventArgs e)
@@ -61,31 +57,19 @@ namespace TestSwAddIn.Forms
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            
+            Settings settingsObj = new Settings();
             sheetTemplatePath = TxtTemplatePath.Text;
             dxfPath = txtDxfPath.Text;
-            settings.SheetTemplatePath = sheetTemplatePath;
-            settings.DxfPath = dxfPath;
+            settingsObj.SheetTemplatePath = sheetTemplatePath;
+            settingsObj.DxfPath = dxfPath;
 
-            try {
-                bool boolstatus = jsonExporter.ExportJson(settingPath, settings);
-                MessageBox.Show("Settings saved sucessifully!");
-                this.Close();
-            } catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}");
-            }
+            settingsObj.SaveSettings(settingsObj);
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Changes were not applied");
             this.Close();
-        }
-
-        public object GetConfiguration()
-        {
-            return (Settings)jsonImporter.LoadJson(settingPath, settings);
         }
     }
 }

@@ -10,6 +10,7 @@ using Utils;
 using TestSwAddIn.Utils;
 using TestSwAddIn.Forms;
 using SolidWorks.Interop.sldworks;
+using TestSwAddIn.Models;
 
 namespace BSWAddIn
 {
@@ -47,6 +48,7 @@ namespace BSWAddIn
         {
             var cmdGrp = this.CommandManager.AddCommandGroup<Commands_e>();
             cmdGrp.CommandClick += CmGrp_CommandClick;
+            var settings = Settings.Instance;
         }
 
         //Ensures that the COM components can run properly within your application's main thread.

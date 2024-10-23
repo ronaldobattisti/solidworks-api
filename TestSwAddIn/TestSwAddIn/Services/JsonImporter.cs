@@ -8,13 +8,13 @@ namespace TestSwAddIn.Services
 {
     class JsonImporter
     {
-        public object LoadJson(string pathToJson, object obj)
+        public object LoadJson(string pathToJson)
         {
             string fullPath = Path.GetFullPath(pathToJson);
             if (File.Exists(fullPath))
             {
                 string jsonString = File.ReadAllText(pathToJson);
-                obj = JsonConvert.DeserializeObject<Settings>(jsonString);
+                var obj = JsonConvert.DeserializeObject<Settings>(jsonString);
                 return obj;
             }
             else
