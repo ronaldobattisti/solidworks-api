@@ -67,7 +67,7 @@ namespace TestSwAddIn.Utils
 
             CreateDxfVisualization(swModel);
             //Export each annotation view to a separate drawing file
-            swPart.ExportToDWG2(sPathName, sModelName, /*(int)swExportToDWG_e.swExportToDWG_ExportSheetMetal*/(int)swExportToDWG_e.swExportToDWG_ExportAnnotationViews, false, varAlignment, false, false, bitMask, varViews);
+            swPart.ExportToDWG2(sPathName, sModelName, (int)swExportToDWG_e.swExportToDWG_ExportSheetMetal/*(int)swExportToDWG_e.swExportToDWG_ExportAnnotationViews*/, false, varAlignment, false, false, bitMask, varViews);
             //BitMask is used to select what will be exported in the drawing, see 
             //help.solidworks.com/2022/english/api/sldworksapi/solidworks.interop.sldworks~solidworks.interop.sldworks.ipartdoc~exporttodwg2.html
 
